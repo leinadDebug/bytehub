@@ -1,5 +1,7 @@
 # 🏨 Booking-like Platform Development
 
+# Overview
+
 This project outlines the full development lifecycle for building a web platform similar to Booking.com, aimed at connecting travelers with property hosts. It covers planning, architecture, core modules, testing, deployment, and post-launch strategy.
 
 ---
