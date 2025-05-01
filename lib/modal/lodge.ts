@@ -8,8 +8,8 @@ const LodgeSchema = new Schema(
     {
         timestamps: true
     }
-)
+);
 
-const Lodge = models.LodgeSchema || model('Lodge', LodgeSchema);
+const Lodge = models.Lodge || model('Lodge', LodgeSchema);
 
 export default Lodge;

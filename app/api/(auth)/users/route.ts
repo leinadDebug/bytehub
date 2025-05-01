@@ -8,9 +8,12 @@ const ObjectId = require('mongoose').Types.ObjectId;
 
 export const GET = async () => {
     try {
+
         await connect();
+
         const users = await User.find();
         return new NextResponse(JSON.stringify(users), { status: 200 });
+
     } catch (err: any) {
         return new NextResponse('Error in GET data, ' + err.message, { status: 500 });
     }
