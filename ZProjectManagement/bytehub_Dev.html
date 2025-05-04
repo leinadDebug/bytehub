@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Booking-like Platform Development Overview</title>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true });
+  </script>
+  <style>
+    :root {
+      --bg: #fdfdfd;
+      --text: #222;
+      --accent: #4CAF50;
+      --box: #ffffff;
+      --shadow: rgba(0, 0, 0, 0.05);
+      --border: #e0e0e0;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 2rem;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      border-left: 4px solid var(--accent);
+      padding-left: 0.5rem;
+      margin-top: 3rem;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: auto;
+    }
+
+    .mermaid {
+      background-color: var(--box);
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px var(--shadow);
+      margin-bottom: 2rem;
+      border: 1px solid var(--border);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: var(--box);
+      box-shadow: 0 4px 12px var(--shadow);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 2rem;
+    }
+
+    th, td {
+      border-bottom: 1px solid var(--border);
+      padding: 14px 16px;
+      text-align: left;
+    }
+
+    th {
+      background-color: var(--accent);
+      color: white;
+      font-weight: 600;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    caption {
+      font-weight: 600;
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>1. System Product Development Flowchart</h2>
+  <div class="mermaid">
+    graph TD
+      A[Market Research] --> B[Requirements Gathering]
+      B --> C[System Design]
+      C --> D[Frontend & Backend Development]
+      C --> E[Database & API Setup]
+      D --> F[Integration & Testing]
+      E --> F
+      F --> G[UI/UX Improvements]
+      F --> H[Security & Compliance]
+      G --> I[Deployment]
+      H --> I
+      I --> J[Monitoring & Feedback]
+      J --> K[Continuous Improvement]
+  </div>
+
+  <h2>2. Development Schedule (Gantt Chart)</h2>
+  <div class="mermaid">
+    gantt
+      title Booking-like Platform Development Timeline
+      dateFormat  YYYY-MM-DD
+      section Planning
+      Market Research            :a1, 2025-05-01, 14d
+      Requirements Gathering     :a2, after a1, 7d
+      
+      section Design
+      System Design              :a3, 2025-05-22, 14d
+
+      section Development
+      Frontend & Backend         :a4, 2025-06-05, 30d
+      Database & API             :a5, 2025-06-05, 30d
+
+      section Testing
+      Integration & QA           :a6, 2025-07-10, 21d
+
+      section Pre-Launch
+      UI/UX Improvements         :a7, 2025-08-01, 10d
+      Security & Compliance      :a8, 2025-08-01, 10d
+
+      section Deployment & Post-Launch
+      Deployment                 :a9, 2025-08-15, 5d
+      Monitoring & Feedback      :a10, 2025-08-20, 10d
+      Continuous Improvement     :a11, 2025-09-01, 30d
+  </div>
+
+  <h2>3. Structured Development Plan by Phase</h2>
+  <table>
+    <caption>Development Plan Summary</caption>
+    <thead>
+      <tr>
+        <th>Phase</th>
+        <th>Duration</th>
+        <th>Key Activities</th>
+        <th>Deliverables</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Planning & Research</td>
+        <td>2–3 weeks</td>
+        <td>Market analysis, feature scoping, tech stack decisions</td>
+        <td>Requirement document, MVP scope, wireframes</td>
+      </tr>
+      <tr>
+        <td>Architecture & Design</td>
+        <td>2–3 weeks</td>
+        <td>System design, database schema, UI/UX prototypes</td>
+        <td>ERD, API docs, design assets</td>
+      </tr>
+      <tr>
+        <td>Core Development</td>
+        <td>8–12 weeks</td>
+        <td>User systems, listings, search, booking, payments</td>
+        <td>Working frontend/backend, database, admin panel</td>
+      </tr>
+      <tr>
+        <td>Testing & QA</td>
+        <td>2–3 weeks</td>
+        <td>Unit, integration, security, UX testing</td>
+        <td>Bug reports, beta testing results</td>
+      </tr>
+      <tr>
+        <td>Launch & Deployment</td>
+        <td>1–2 weeks</td>
+        <td>Production setup, monitoring tools, go-live</td>
+        <td>Live product, launch checklist, analytics</td>
+      </tr>
+      <tr>
+        <td>Post-Launch & Iteration</td>
+        <td>Ongoing</td>
+        <td>User feedback, performance updates, feature rollouts</td>
+        <td>Updated roadmap, changelogs, improvements</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>
