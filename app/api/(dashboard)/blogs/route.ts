@@ -11,6 +11,11 @@ export const GET = async (request: Request) => {
         const userId = searchParams.get('userId');
         const lodgeId = searchParams.get('lodgeId');
         const searchKeywords = searchParams.get('keywords');
+        const startDate = searchParams.get('startDate');
+        const endDate = searchParams.get('endDate');
+        const page = parseInt(searchParams.get("page") || "1");
+        const limit = parseInt(searchParams.get("limit") || "10")
+
 
         if (!userId || !Types.ObjectId.isValid(userId)) {
             return new NextResponse(JSON.stringify({ message: 'Invalid or missing userId' }), { status: 400 })
@@ -54,7 +59,27 @@ export const GET = async (request: Request) => {
             ]
         }
 
-        const blogs = await Blog.find(filter);
+        if (startDate && endDate) {
+            filter.createdAt =
+            {
+                $gte: new Date(startDate),
+                $lte: new Date(endDate),
+            }
+        } else if (startDate) {
+            filter.createdAt = {
+                $gte: new Date(startDate)
+            }
+        } else if (endDate) {
+            filter.createdAt = {
+                $lte: new Date(endDate)
+            }
+        }
+        /*
+        *PAGINATION
+        */
+        const skip = (page - 1) * limit;
+
+        const blogs = await Blog.find(filter).sort({ createdAt: 'asc' }).skip(skip).limit(limit); //sorting in ascending order
         return new NextResponse(JSON.stringify({ blogs }), { status: 200 })
     }
     catch (err: any) {
