@@ -16,34 +16,19 @@ export default function LoginPage() {
     setError("");
 
     try {
-      // First, try to find the user
-      const response = await fetch("/api/users", {
-        method: "GET",
+      const response = await fetch("/api/login", {
+        method: "POST",
         headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
       });
 
+      const data = await response.json();
+
       if (!response.ok) {
-        throw new Error("Failed to fetch users");
+        throw new Error(data.message || "Login failed");
       }
 
-      const users = await response.json();
-      const user = users.find(
-        (u: any) => u.email === email && u.password === password
-      );
-
-      if (!user) {
-        throw new Error("Invalid email or password");
-      }
-
-      // Store user data in localStorage (excluding password)
-      const userData = {
-        id: user._id,
-        email: user.email,
-        username: user.username,
-      };
-
-      localStorage.setItem("user", JSON.stringify(userData));
-      router.push("/");
+      router.push("/dashboard");
     } catch (err: any) {
       setError(err.message);
     } finally {

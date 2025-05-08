@@ -17,27 +17,8 @@ export default function RegisterPage() {
     setError("");
 
     try {
-      // First check if user exists
-      const checkResponse = await fetch("/api/users", {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-      });
-
-      if (!checkResponse.ok) {
-        throw new Error("Failed to check existing users");
-      }
-
-      const users = await checkResponse.json();
-      const existingUser = users.find(
-        (u: any) => u.email === email || u.username === userName
-      );
-
-      if (existingUser) {
-        throw new Error("Email or username already exists");
-      }
-
       // Create new user
-      const createResponse = await fetch("/api/users", {
+      const createResponse = await fetch("/api/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
