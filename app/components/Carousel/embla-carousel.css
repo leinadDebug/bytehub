@@ -1,0 +1,250 @@
+.embla {
+  --slide-spacing: 1rem;
+  --slide-size: 100%;
+  --slide-height: 19rem;
+  padding: 1.6rem;
+  position: relative;
+}
+
+.embla__viewport {
+  overflow: hidden;
+  position: relative;
+}
+
+.embla__container {
+  backface-visibility: hidden;
+  display: flex;
+  touch-action: pan-y;
+  margin-left: calc(var(--slide-spacing) * -1);
+}
+
+.embla__slide {
+  flex: 0 0 var(--slide-size);
+  min-width: 0;
+  padding-left: var(--slide-spacing);
+  position: relative;
+}
+
+.embla__slide__img {
+  display: block;
+  height: var(--slide-height);
+  width: 100%;
+  object-fit: cover;
+  border-radius: 0.5rem;
+}
+
+/* Repositioned buttons to be on the sides of the carousel */
+.embla__buttons {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  pointer-events: none; /* This allows clicks to pass through to the carousel */
+  padding: 0 1rem;
+}
+
+.embla__button {
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: rgba(255, 255, 255, 0.7);
+  touch-action: manipulation;
+  display: inline-flex;
+  text-decoration: none;
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  width: 3.6rem;
+  height: 3.6rem;
+  z-index: 1;
+  border-radius: 50%;
+  color: var(--text-body, #334155);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto; /* Re-enable pointer events for the buttons */
+  transition: background-color 0.2s ease, opacity 0.2s ease;
+}
+
+.embla__button:hover {
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+.embla__button:disabled {
+  color: var(--detail-high-contrast, #cbd5e1);
+  opacity: 0.3;
+  cursor: default;
+}
+
+.embla__button--prev {
+  left: 1rem;
+}
+
+.embla__button--next {
+  right: 1rem;
+}
+
+.embla__button__svg {
+  width: 35%;
+  height: 35%;
+}
+
+.embla__dots {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.8rem;
+  margin-top: 1.6rem;
+}
+
+.embla__dot {
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: transparent;
+  touch-action: manipulation;
+  display: inline-flex;
+  text-decoration: none;
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  width: 0.9rem;
+  height: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: var(--detail-medium-contrast, #e2e8f0);
+}
+
+.embla__dot--selected {
+  background-color: var(--text-body, #334155);
+}
+
+/* Lazy Load */
+.embla__lazy-load {
+  position: relative;
+  height: var(--slide-height);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  background-color: var(--background-code, #e2e8f0);
+}
+
+.embla__lazy-load__spinner {
+  border: 0.4rem solid rgba(var(--text-high-contrast-rgb-value, 15, 23, 42), 0.2);
+  border-left: 0.4rem solid var(--text-high-contrast, #0f172a);
+  font-size: 1rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  width: 3.8rem;
+  height: 3.8rem;
+  border-radius: 50%;
+  animation: embla-lazy-load-spinner 0.8s linear infinite;
+  z-index: 1;
+  transition: opacity 0.2s ease-out;
+}
+
+/* Hide spinner when image is loaded */
+.embla__lazy-load__spinner--hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.embla__lazy-load__img {
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.embla__lazy-load__img--loaded {
+  opacity: 1;
+}
+
+@keyframes embla-lazy-load-spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Theme Variables */
+:root {
+  --background-site: #f1f5f9;
+  --background-code: #e2e8f0;
+  --text-body: #334155;
+  --text-high-contrast: #0f172a;
+  --text-medium-contrast: #64748b;
+  --text-low-contrast: #94a3b8;
+  --detail-high-contrast: #cbd5e1;
+  --detail-medium-contrast: #e2e8f0;
+  --detail-low-contrast: #f1f5f9;
+  --text-high-contrast-rgb-value: 15, 23, 42;
+}
+
+.theme-dark {
+  --background-site: #0f172a;
+  --background-code: #1e293b;
+  --text-body: #e2e8f0;
+  --text-high-contrast: #f8fafc;
+  --text-medium-contrast: #94a3b8;
+  --text-low-contrast: #64748b;
+  --detail-high-contrast: #334155;
+  --detail-medium-contrast: #1e293b;
+  --detail-low-contrast: #0f172a;
+  --text-high-contrast-rgb-value: 248, 250, 252;
+}
+
+/* Basic styling */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--background-site);
+  color: var(--text-body);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
+    "Helvetica Neue", sans-serif;
+}
+
+header {
+  text-align: center;
+  padding: 2rem 0;
+}
+
+.header {
+  font-size: 1.8rem;
+  margin: 0;
+  color: var(--text-high-contrast);
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
+  padding: 2rem 0;
+}
+
+.footer__link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: var(--text-medium-contrast);
+}
+
+.footer__link__svg {
+  width: 1.2rem;
+  height: 1.2rem;
+  margin-right: 0.5rem;
+  fill: currentColor;
+}
+
+.footer__link__text {
+  font-size: 0.9rem;
+}

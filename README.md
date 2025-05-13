@@ -165,3 +165,104 @@ This development plan is open for reuse and modification under the MIT License. 
 **Leinaddebug**  
 Email: `akujuaobidaniel@gmail.com`  
 LinkedIn: [linkedin.com/in/daniel](https://linkedin.com/in/danielakujuaobi)
+
+🗂️ File/Folder Structure (Complete)
+/app
+│
+├── /api → Route handlers (REST APIs)
+│ ├── /auth
+│ │ ├── login/route.ts
+│ │ ├── register/route.ts
+│ │ └── session/route.ts
+│ ├── /user
+│ │ ├── profile/route.ts
+│ │ └── upgrade/route.ts → Upgrade to premium
+│ ├── /lodge
+│ │ ├── [id]/route.ts → GET, PATCH, DELETE single lodge
+│ │ ├── create/route.ts → POST: create lodge
+│ │ └── approve/route.ts → POST: approve lodge (admin only)
+│ ├── /booking
+│ │ ├── [id]/route.ts → Cancel booking
+│ │ └── create/route.ts → Book lodge
+│ ├── /complaint
+│ │ ├── lodge/[id]/route.ts → Lodge-related complaints
+│ │ └── route.ts → Admin fetch all
+│ ├── /report
+│ │ └── lodge/route.ts → Admin file report
+│
+├── /dashboard → Main dashboard after login
+│ └── page.tsx
+│
+├── /lodge
+│ ├── [lodgeId]
+│ │ ├── page.tsx → Lodge detail page
+│ │ └── chat/page.tsx → WebSocket chat
+│ └── page.tsx → Browse all lodges
+│
+├── /add-lodge
+│ └── page.tsx → Lodge creation (premium/admin)
+│
+├── /manage-lodge
+│ └── page.tsx → Edit/delete own lodges
+│
+├── /admin
+│ ├── approvals/page.tsx → View & approve pending lodges
+│ ├── complaints/page.tsx → View all user complaints
+│ ├── reports/page.tsx → View/file lodge reports
+│ └── users/page.tsx → Manage users
+│
+├── /profile
+│ └── page.tsx
+│
+├── /premium
+│ └── page.tsx → Upgrade plans, benefits
+│
+├── /login
+│ └── page.tsx
+│
+├── /page.tsx → Homepage (redirect if logged in)
+├── layout.tsx → Root layout (header, footer)
+└── middleware.ts → Role/session-based access control
+
+📦 Supporting Directories
+
+/components → UI components (Card, Modal, ChatBox, etc)
+/hooks → Custom hooks (e.g. useAuth, useSocket)
+/lib
+│
+├── /auth → Session management, JWT helpers
+├── /db → MongoDB connection
+├── /models → Mongoose models
+│ ├── User.ts
+│ ├── Lodge.ts
+│ ├── Booking.ts
+│ ├── Complaint.ts
+│ └── Report.ts
+├── /utils → Helpers (date formatting, permissions)
+├── /validators → zod/yup schemas for validation
+/constants → Roles, amenities, lodge statuses
+/styles → Global styles (Tailwind, CSS, etc)
+/public → Static assets (logos, icons)
+
+🔐 middleware.ts – Route Protection Example
+
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
+
+export function middleware(req: NextRequest) {
+const token = req.cookies.get('session-token')?.value;
+const url = req.nextUrl.pathname;
+
+const protectedPaths = ['/dashboard', '/profile', '/add-lodge', '/manage-lodge', '/admin'];
+const adminOnly = ['/admin'];
+
+if (protectedPaths.some(path => url.startsWith(path)) && !token) {
+return NextResponse.redirect(new URL('/login', req.url));
+}
+
+if (adminOnly.some(path => url.startsWith(path)) && req.cookies.get('role')?.value !== 'admin') {
+return NextResponse.redirect(new URL('/dashboard', req.url));
+}
+
+return NextResponse.next();
+}
