@@ -8,6 +8,7 @@ import UserModal from "@/lib/modal/user";
 import { User } from "@/types/lodges";
 import { Header } from "../components/Header";
 import Footer from "../components/Footer/Footer";
+import Lodge from "@/lib/modal/lodge";
 
 async function getCurrentUser() {
   const cookieStore = await cookies();
@@ -31,32 +32,49 @@ async function getCurrentUser() {
 }
 
 export default async function Dashboard() {
-  await connect();
+  try {
+    await connect();
 
-  const lodgesInDb = await LodgeModal.find();
-  const lodges = lodgesInDb.map((lodgeInDb) => ({
-    _id: lodgeInDb._id.toString(),
-    title: lodgeInDb.title,
-    owner: lodgeInDb.user.toString(),
-  }));
+    const [lodgesInDb, profile] = await Promise.all([
+      LodgeModal.find().lean(),
+      getCurrentUser(),
+    ]);
 
-  const profile = await getCurrentUser();
-  console.log(profile.username);
+    const lodges = lodgesInDb.map((lodgeInDb: any) => ({
+      _id: lodgeInDb._id.toString(),
+      title: lodgeInDb.title,
+      owner: lodgeInDb.user.toString(),
+    }));
 
-  return (
-    <div>
-      {/*Nav*/}
-      <Header name={profile.username} />
-
-      {/*Main*/}
-      <main className="mx-10">
-        <FilterSection />
-        <LodgesSection lodges={lodges} />
-      </main>
-
-      <footer>
-        <Footer />
-      </footer>
-    </div>
-  );
+    return (
+      <div>
+        <Header name={profile?.username || "Guest"} />
+        <main className="mx-10">
+          <FilterSection />
+          <LodgesSection lodges={lodges} />
+        </main>
+        <footer>
+          <Footer />
+        </footer>
+      </div>
+    );
+  } catch (error) {
+    console.error("Dashboard error:", error);
+    return (
+      <div>
+        <Header name="Guest" />
+        <main className="mx-10">
+          <div className="text-center py-10">
+            <h1 className="text-2xl font-bold text-red-600">
+              Error loading dashboard
+            </h1>
+            <p className="mt-2">Please try again later</p>
+          </div>
+        </main>
+        <footer>
+          <Footer />
+        </footer>
+      </div>
+    );
+  }
 }

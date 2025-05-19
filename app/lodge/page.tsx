@@ -21,7 +21,7 @@ export default function Lodge({}: Props) {
   const [date, setDate] = useState<Date | undefined>(new Date());
   return (
     <div className="">
-      <div className="px-10 lg:px-60">
+      <div className="px-10 lg:px-20">
         <section>
           <Card className="flex flex-col border-none shadow-none">
             <CardHeader className="order-2 sm:order-1 text-2xl">
@@ -90,6 +90,7 @@ export default function Lodge({}: Props) {
                   </div>
                 </div>
               </div>
+
               <div className="">
                 <div className="flex items-start space-x-4  pb-2 mb-2">
                   <Avatar>
@@ -131,6 +132,7 @@ export default function Lodge({}: Props) {
                   </div>
                 </div>
               </div>
+
               <div className="space-y-4 border-b pb-2 mb-4">
                 <h1 className="text-1xl ">About this place</h1>
                 <p className="line-clamp-6 text-pretty">
@@ -174,6 +176,7 @@ export default function Lodge({}: Props) {
                   addition to the daily rate. Show more
                 </p>
               </div>
+
               <div className="space-y-4 border-b pb-2 mb-4">
                 <h1 className="text-1xl ">Where you'll sleep</h1>
                 <img
@@ -219,6 +222,7 @@ export default function Lodge({}: Props) {
               </div>
             </CardContent>
           </Card>
+
           <Card className="flex-2 p-4 w-fit h-fit text-lg shadow-xl sticky top-10 hidden sm:block">
             <CardDescription>Prices include all fees</CardDescription>
             <CardContent>
@@ -243,6 +247,7 @@ export default function Lodge({}: Props) {
             </CardContent>
           </Card>
         </section>
+
         <section>
           <div className="border-b pb-2 mb-4">
             <h1 className="text-2xl font-bold font-sans">4.99</h1>
