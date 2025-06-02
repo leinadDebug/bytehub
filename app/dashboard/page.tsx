@@ -43,7 +43,7 @@ export default async function Dashboard() {
     const lodges = lodgesInDb.map((lodgeInDb: any) => ({
       _id: lodgeInDb._id.toString(),
       title: lodgeInDb.title,
-      owner: lodgeInDb.user.toString(),
+      owner: lodgeInDb.user ? lodgeInDb.user.toString() : "Unknown",
     }));
 
     return (

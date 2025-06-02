@@ -4,8 +4,9 @@ import User from "@/lib/modal/user"
 import { Types } from "mongoose"
 import { NextResponse } from "next/server"
 
-export const PATCH = async (request: Request, context: { params: any }) => {
-    const lodgeId = context.params.lodge;
+export const PATCH = async (request: Request, context: { params: Promise<{ lodge: string }> }) => {
+    const { lodge } = await context.params;
+    const lodgeId = lodge;
     try {
         const body = await request.json();
         const { title } = body;
