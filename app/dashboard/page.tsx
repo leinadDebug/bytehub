@@ -5,10 +5,10 @@ import FilterSection from "../components/FilterSection";
 import { cookies } from "next/headers";
 import { jwtVerify } from "jose";
 import UserModal from "@/lib/modal/user";
-import { User } from "@/types/lodges";
+import { Lodge, User } from "@/types/lodges";
 import { Header } from "../components/Header";
 import Footer from "../components/Footer/Footer";
-import Lodge from "@/lib/modal/lodge";
+import { fetchLodges } from "@/lib/utils";
 
 async function getCurrentUser() {
   const cookieStore = await cookies();
@@ -46,12 +46,16 @@ export default async function Dashboard() {
       owner: lodgeInDb.user.toString(),
     }));
 
+    const mockLodges = await fetchLodges<Lodge>(
+      "https://6878e5f263f24f1fdc9fed51.mockapi.io/freeapi/Lodge"
+    );
+
     return (
       <div>
         <Header name={profile?.username || "Guest"} />
         <main className="mx-10">
           <FilterSection />
-          <LodgesSection lodges={lodges} />
+          <LodgesSection lodges={mockLodges} />
         </main>
         <footer>
           <Footer />

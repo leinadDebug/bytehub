@@ -1,8 +1,24 @@
-import { connect } from "@/lib/db"
 import Lodge from "@/lib/modal/lodge"
 import User from "@/lib/modal/user"
 import { Types } from "mongoose"
-import { NextResponse } from "next/server"
+import { NextResponse, NextRequest } from "next/server"
+import { connect } from "@/lib/db";
+import LodgeModal from "@/lib/modal/lodge";
+
+
+export async function GET(req: NextRequest, { params }: { params: { lodge: string } }) {
+    await connect();
+    const { lodge } = params;
+    try {
+        const lodgeData = await LodgeModal.findById(lodge).lean();
+        if (!lodgeData) {
+            return NextResponse.json({ error: "Lodge not found" }, { status: 404 });
+        }
+        return NextResponse.json(lodgeData);
+    } catch (error) {
+        return NextResponse.json({ error: "Failed to fetch lodge" }, { status: 500 });
+    }
+}
 
 export const PATCH = async (request: Request, context: { params: any }) => {
     const lodgeId = context.params.lodge;
