@@ -46,16 +46,16 @@ export default async function Dashboard() {
       owner: lodgeInDb.user.toString(),
     }));
 
-    const mockLodges = await fetchLodges<Lodge>(
-      "https://6878e5f263f24f1fdc9fed51.mockapi.io/freeapi/Lodge"
-    );
+    // const mockLodges = await fetchLodges<Lodge>(
+    //   "https://6878e5f263f24f1fdc9fed51.mockapi.io/freeapi/Lodge"
+    // );
 
     return (
       <div>
         <Header name={profile?.username || "Guest"} />
         <main className="mx-10">
           <FilterSection />
-          <LodgesSection lodges={mockLodges} />
+          <LodgesSection lodges={lodges} />
         </main>
         <footer>
           <Footer />

@@ -1,26 +1,12 @@
-import Lodge from "@/lib/modal/lodge"
-import User from "@/lib/modal/user"
-import { Types } from "mongoose"
-import { NextResponse, NextRequest } from "next/server"
+import { NextRequest, NextResponse } from "next/server";
 import { connect } from "@/lib/db";
-import LodgeModal from "@/lib/modal/lodge";
+import Lodge from "@/lib/modal/lodge";
+import User from "@/lib/modal/user";
+import { Types } from "mongoose";
 
 
-export async function GET(req: NextRequest, { params }: { params: { lodge: string } }) {
-    await connect();
-    const { lodge } = params;
-    try {
-        const lodgeData = await LodgeModal.findById(lodge).lean();
-        if (!lodgeData) {
-            return NextResponse.json({ error: "Lodge not found" }, { status: 404 });
-        }
-        return NextResponse.json(lodgeData);
-    } catch (error) {
-        return NextResponse.json({ error: "Failed to fetch lodge" }, { status: 500 });
-    }
-}
-
-export const PATCH = async (request: Request, context: { params: any }) => {
+// PATCH
+export const PATCH = async (request: Request, context: { params: { lodge: string } }) => {
     const lodgeId = context.params.lodge;
     try {
         const body = await request.json();
@@ -78,7 +64,8 @@ export const PATCH = async (request: Request, context: { params: any }) => {
 
 }
 
-export const DELETE = async (request: Request, context: { params: any }) => {
+// DELETE
+export const DELETE = async (request: Request, context: { params: { lodge: string } }) => {
     const lodgeId = context.params.lodge;
     try {
         const { searchParams } = new URL(request.url)
@@ -118,7 +105,7 @@ export const DELETE = async (request: Request, context: { params: any }) => {
             );
         }
 
-        await Lodge.findOneAndDelete(lodgeId)
+        await Lodge.findOneAndDelete({ _id: lodgeId })
         return new NextResponse(JSON.stringify(
             { message: 'lodge deleted.' }),
             { status: 200 }
