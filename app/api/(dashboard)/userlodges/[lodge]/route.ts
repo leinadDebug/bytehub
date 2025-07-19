@@ -64,8 +64,8 @@ export const PATCH = async (request: Request, context: { params: Promise<{ lodge
 }
 
 // DELETE
-export const DELETE = async (request: Request, context: { params: { lodge: string } }) => {
-    const lodgeId = context.params.lodge;
+export const DELETE = async (request: Request, context: { params: Promise<{ lodge: string }> }) => {
+    const { lodge: lodgeId } = await context.params;
     try {
         const { searchParams } = new URL(request.url)
         const userId = searchParams.get('userId')

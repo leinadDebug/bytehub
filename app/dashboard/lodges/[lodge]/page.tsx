@@ -3,7 +3,7 @@
 import LodgeDetails from "@/app/components/LodgeDetails";
 
 interface LodgePageProps {
-  params: { lodge: string };
+  params: Promise<{ lodge: string }>;
 }
 
 // async function getLodge(id: string){
@@ -25,8 +25,9 @@ async function getLodge(id: string) {
 }
 
 export default async function LodgePage({ params }: LodgePageProps) {
-  const lodge = await getLodge(params.lodge);
-  if (!lodge) return <div>Not found</div>;
+  const { lodge } = await params;
+  const lodgeData = await getLodge(lodge);
+  if (!lodgeData) return <div>Not found</div>;
 
-  return <LodgeDetails lodge={lodge} />;
+  return <LodgeDetails lodge={lodgeData} />;
 }
