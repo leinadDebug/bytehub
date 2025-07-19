@@ -12,8 +12,10 @@ function Footer({}: Props) {
   return (
     <Card className="bg-slate-100 px-10 lg:px-40 mt-auto">
       <div className="flex flex-col max-w-7xl mx-auto">
+    <Card className="bg-slate-100 px-10 lg:px-40 mt-auto">
+      <div className="flex flex-col max-w-7xl mx-auto">
         <Card className="bg-slate-100 border-0 shadow-none">
-          <CardHeader className=" text-xl">
+          <CardHeader className="text-xl">
             Inspiration for future getaways
           </CardHeader>
           <CardContent>
@@ -43,9 +45,36 @@ function Footer({}: Props) {
                 >
                   <label className="font-medium">{item}</label>
                   <h2 className="text-gray-500 hover:text-black font-light text-sm transition-colors duration-200">
+            <div className="menubar items-start flex gap-5 overflow-x-auto pb-2">
+              <h1 className="underline hover:no-underline underline-offset-8 text-gray-500 hover:text-black transition-colors duration-200 whitespace-nowrap">
+                Unique stays
+              </h1>
+              <h1 className="hover:underline underline-offset-8 text-gray-500 hover:text-black transition-colors duration-200 whitespace-nowrap">
+                Categories Travel tips & inspiration
+              </h1>
+              <h1 className="hover:underline underline-offset-8 text-gray-500 hover:text-black transition-colors duration-200 whitespace-nowrap">
+                Airbnb-friendly apartments
+              </h1>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 my-4">
+              {[
+                "Cabins",
+                "Treehouses",
+                "Glamping",
+                "Tiny Houses",
+                "Beach Houses",
+                "Campers and RVs",
+              ].map((item) => (
+                <div
+                  key={item}
+                  className="hover:scale-[1.02] transition-transform duration-200"
+                >
+                  <label className="font-medium">{item}</label>
+                  <h2 className="text-gray-500 hover:text-black font-light text-sm transition-colors duration-200">
                     United States
                   </h2>
                 </div>
+              ))}
               ))}
             </div>
           </CardContent>
@@ -114,6 +143,12 @@ function Footer({}: Props) {
           <div className="text-center md:text-left">
             &copy; 2025 Airbnb, Inc. · Terms · Sitemap · Privacy · Your Privacy
             Choices
+          </div>
+          <div className="flex gap-4 flex-wrap justify-center">
+            <span>English</span>
+            <span>USD</span>
+            <span>Facebook</span>
+            <span>Instagram</span>
           </div>
           <div className="flex gap-4 flex-wrap justify-center">
             <span>English</span>

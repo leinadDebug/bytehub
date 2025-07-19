@@ -2,14 +2,18 @@ import Profile_header from "@/app/components/Header/Profile_header";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { ArrowBigLeftIcon, Camera, Plus, PlusCircle } from "lucide-react";
+import { ArrowBigLeftIcon, Camera, Plus, PlusCircle } from "lucide-react";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
+  CardTitle,
 } from "@/components/ui/card";
 import React from "react";
+import { Separator } from "@radix-ui/react-dropdown-menu";
+import Footer from "@/app/components/Footer/Footer";
 import { Separator } from "@radix-ui/react-dropdown-menu";
 import Footer from "@/app/components/Footer/Footer";
 
@@ -17,6 +21,24 @@ type Props = {};
 
 export default function ({}: Props) {
   return (
+    <div className="min-h-screen bg-white flex flex-col">
+      <div className="px-5 md:px-10 lg:px-20 flex-grow">
+        <Profile_header name="cagilo" profileImg="C" />
+
+        <main className="grid sm:grid-cols-3 gap-4 max-w-7xl mx-auto ">
+          {/* Avatar Card - Optimized for performance */}
+          <Card className="w-full sm:col-span-1 border-none shadow-none">
+            <CardContent className="p-4">
+              <div className="flex flex-col items-center w-full">
+                <Avatar className="w-[min(80vw,300px)] h-[min(80vw,300px)] sm:w-40 sm:h-40 transition-transform duration-200">
+                  <AvatarImage alt="Profile picture" />
+                  <AvatarFallback
+                    className="bg-slate-800 text-slate-100 text-[120px] sm:text-6xl font-bold"
+                    aria-label="User initial"
+                  >
+                    C
+                  </AvatarFallback>
+                </Avatar>
     <div className="min-h-screen bg-white flex flex-col">
       <div className="px-5 md:px-10 lg:px-20 flex-grow">
         <Profile_header name="cagilo" profileImg="C" />

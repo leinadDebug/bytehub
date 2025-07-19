@@ -5,10 +5,10 @@ import FilterSection from "../components/FilterSection";
 import { cookies } from "next/headers";
 import { jwtVerify } from "jose";
 import UserModal from "@/lib/modal/user";
-import { User } from "@/types/lodges";
+import { Lodge, User } from "@/types/lodges";
 import { Header } from "../components/Header";
 import Footer from "../components/Footer/Footer";
-import Lodge from "@/lib/modal/lodge";
+import { fetchLodges } from "@/lib/utils";
 
 async function getCurrentUser() {
   const cookieStore = await cookies();
@@ -45,6 +45,10 @@ export default async function Dashboard() {
       title: lodgeInDb.title,
       owner: lodgeInDb.user ? lodgeInDb.user.toString() : "Unknown",
     }));
+
+    // const mockLodges = await fetchLodges<Lodge>(
+    //   "https://6878e5f263f24f1fdc9fed51.mockapi.io/freeapi/Lodge"
+    // );
 
     return (
       <div>

@@ -63,7 +63,8 @@ export const PATCH = async (request: Request, context: { params: Promise<{ lodge
 
 }
 
-export const DELETE = async (request: Request, context: { params: any }) => {
+// DELETE
+export const DELETE = async (request: Request, context: { params: { lodge: string } }) => {
     const lodgeId = context.params.lodge;
     try {
         const { searchParams } = new URL(request.url)
@@ -103,7 +104,7 @@ export const DELETE = async (request: Request, context: { params: any }) => {
             );
         }
 
-        await Lodge.findOneAndDelete(lodgeId)
+        await Lodge.findOneAndDelete({ _id: lodgeId })
         return new NextResponse(JSON.stringify(
             { message: 'lodge deleted.' }),
             { status: 200 }

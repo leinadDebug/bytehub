@@ -1,4 +1,4 @@
-// app/api/lodges/[id]/route.ts
+// app/api/lodges/[lodge]/route.ts
 import { connect } from '@/lib/db';
 import Lodge from '@/lib/modal/lodge';
 import { Types } from 'mongoose';

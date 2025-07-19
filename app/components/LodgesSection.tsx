@@ -53,9 +53,9 @@ const LodgesSection = ({ lodges }: LodgesSectionProps) => {
               </div>
 
               <div className="p-3 text-gray-700 space-y-2">
-                <a href="/lodge">
+                <Link href={`/dashboard/lodges/${lodge._id}`}>
                   <CardTitle className="font-medium">{lodge.title}</CardTitle>
-                </a>
+                </Link>
                 <h4 className="text-sm">Owner: {lodge._id}</h4>
               </div>
             </div>
