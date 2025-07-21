@@ -6,12 +6,20 @@ import { Header } from "../components/Header";
 import Footer from "../components/Footer/Footer";
 import { getCurrentUser } from "@/lib/auth";
 
-export default async function Dashboard() {
+export default async function Dashboard({
+  searchParams,
+}: {
+  searchParams: Promise<{ query: string }>;
+}) {
   try {
     await connect();
 
+    const resolvedSearchParams = await searchParams;
+    const query = resolvedSearchParams?.query || "";
+    const filter = query ? { title: { $regex: query, $options: "i" } } : {};
+
     const [lodgesInDb, profile] = await Promise.all([
-      LodgeModal.find().lean(),
+      LodgeModal.find(filter).lean(),
       getCurrentUser(),
     ]);
 

@@ -23,7 +23,7 @@ export default function MapSection({
   location: { lat: number; lng: number; address: string };
 }) {
   return (
-    <div className="mt-8 rounded-xl overflow-hidden ">
+    <div className="mt-8 rounded-xl overflow-hidden h-[400px]">
       <MapContainer
         center={[location.lat, location.lng]}
         zoom={15}
