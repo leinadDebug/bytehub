@@ -27,12 +27,20 @@ export interface Review {
     comment?: string;
 }
 
+export interface Location {
+    address?: String,
+    coordinates: {
+        lat: Number,
+        lng: Number
+    }
+}
+
 export interface Lodge {
     _id: string;
     title: string;
     owner: string;  // Keeping your existing owner field
     user?: string;  // Optional to maintain backward compatibility
-    location?: string;
+    location?: Location;
     description?: string;
     price?: number;
     images?: string[];
@@ -62,4 +70,9 @@ export interface User {
     isSuperhost?: boolean;
     hostingSince?: string | Date;
     responseRate?: number;
+}
+
+export interface Filter {
+    name: string;
+    icon: React.ReactNode;
 }

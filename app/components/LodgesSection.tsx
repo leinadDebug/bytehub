@@ -1,67 +1,44 @@
 "use client";
 import React from "react";
-
 import { Lodge } from "@/types/lodges";
 import Carousel from "./Carousel/Carousel";
-import {
-  Card,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import Link from "next/link";
 
 interface LodgesSectionProps {
   lodges: Lodge[];
 }
 
-const SLIDES = [
-  {
-    id: 1,
-    imgSrc: "https://picsum.photos/600/350?v=0",
-    alt: "A beautiful landscape",
-  },
-  {
-    id: 2,
-    imgSrc: "https://picsum.photos/600/350?v=1",
-    alt: "A city skyline",
-  },
-  {
-    id: 3,
-    imgSrc: "https://picsum.photos/600/350?v=2",
-    alt: "A mountain view",
-  },
-];
-
 const LodgesSection = ({ lodges }: LodgesSectionProps) => {
   return (
-    <div>
-      <Card>
-        <CardHeader>
-          <CardTitle>Available Lodges</CardTitle>
-          <CardDescription>{lodges.length} are Available.</CardDescription>
-        </CardHeader>
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 py-8">
+      {lodges.map((lodge) => {
+        const slides =
+          lodge.images && lodge.images.length > 0
+            ? lodge.images.map((img, i) => ({
+                id: i,
+                imgSrc: img,
+                alt: lodge.title,
+                title: lodge.title,
+                owner: lodge.owner,
+              }))
+            : [
+                {
+                  id: 0,
+                  imgSrc: "https://picsum.photos/600/350?random=1",
+                  alt: "Placeholder Image 1",
+                  title: lodge.title,
+                  owner: lodge.owner,
+                },
+              ];
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 p-3">
-          {lodges.map((lodge, i) => (
-            <div
-              key={i}
-              className=" bg-slate-50 rounded-lg overflow-hidden shadow-sm space-y-4"
-            >
-              <div>
-                <Carousel slides={SLIDES} />
-              </div>
-
-              <div className="p-3 text-gray-700 space-y-2">
-                <Link href={`/dashboard/lodges/${lodge._id}`}>
-                  <CardTitle className="font-medium">{lodge.title}</CardTitle>
-                </Link>
-                <h4 className="text-sm">Owner: {lodge._id}</h4>
-              </div>
-            </div>
-          ))}
-        </div>
-      </Card>
+        return (
+          <div key={lodge._id} className="glassmorphism p-2">
+            <Link href={`/dashboard/lodges/${lodge._id}`}>
+              <Carousel slides={slides} />
+            </Link>
+          </div>
+        );
+      })}
     </div>
   );
 };

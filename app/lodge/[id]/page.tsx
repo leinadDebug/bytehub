@@ -13,6 +13,8 @@ import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import Footer from "@/app/components/Footer/Footer";
 import { useParams } from "next/navigation";
+import { Location } from "@/types/lodges";
+import dynamic from "next/dynamic";
 
 interface LodgeHost {
   name: string;
@@ -38,7 +40,7 @@ interface LodgeReview {
 interface Lodge {
   id: string;
   title: string;
-  location: string;
+  location: Location;
   description: string;
   price: number;
   images: string[];
@@ -66,6 +68,13 @@ interface Lodge {
     description: string;
   }[];
 }
+
+const MapSection = dynamic(() => import("../../components/MapSection"), {
+  ssr: false,
+  loading: () => (
+    <div className="h-[400px] bg-gray-200 rounded-xl animate-pulse" />
+  ),
+});
 
 export default function LodgeDetails() {
   const [date, setDate] = useState<Date | undefined>(new Date());
@@ -133,11 +142,11 @@ export default function LodgeDetails() {
       }`;
 
   return (
-    <div className="min-h-screen bg-white flex flex-col">
+    <div className="min-h-screen bg-gray-900 text-white flex flex-col">
       <div className="px-5 md:px-10 lg:px-15 flex-grow max-w-7xl mx-auto">
         {/* Main Image Section */}
         <section>
-          <Card className="flex flex-col border-none shadow-none">
+          <Card className="flex flex-col border-none shadow-none bg-transparent">
             <CardHeader className="order-2 sm:order-1 text-2xl px-0">
               {lodge.title}
             </CardHeader>
@@ -174,10 +183,12 @@ export default function LodgeDetails() {
         {/* Main Content Section */}
         <section className="flex flex-col lg:flex-row justify-between gap-8">
           {/* Left Column - Property Details */}
-          <Card className="border-none shadow-none flex-1 px-0">
+          <Card className="border-none shadow-none flex-1 px-0 bg-transparent">
             <CardHeader className="space-y-1 px-0 pt-0">
-              <h2 className="text-xl font-semibold">{lodge.location}</h2>
-              <p className="text-gray-500 text-sm">
+              <h2 className="text-xl font-semibold">
+                {lodge.location.address}
+              </h2>
+              <p className="text-white/70 text-sm">
                 {`${lodge.bedrooms} bedroom${lodge.bedrooms !== 1 ? "s" : ""} · 
                  ${lodge.beds} bed${lodge.beds !== 1 ? "s" : ""} · 
                  ${lodge.bathrooms} bathroom${
@@ -188,7 +199,7 @@ export default function LodgeDetails() {
 
             <CardContent className="space-y-6 px-0">
               {/* Host Section */}
-              <div className="flex items-start gap-4 border-b pb-6">
+              <div className="flex items-start gap-4 border-b pb-6 border-white/20">
                 <Avatar className="w-12 h-12">
                   <AvatarImage
                     src={lodge.host.avatar || "https://github.com/vercel.png"}
@@ -200,18 +211,18 @@ export default function LodgeDetails() {
                     Stay with {lodge.host.name}
                   </h3>
                   {lodge.host.isSuperhost && (
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-white/70">
                       Superhost · {lodge.host.hostingSince} hosting
                     </p>
                   )}
-                  <p className="text-xs text-gray-400 pt-1">
+                  <p className="text-xs text-white/50 pt-1">
                     Joined {lodge.host.joinDate}
                   </p>
                 </div>
               </div>
 
               {/* Highlights Section */}
-              <div className="space-y-4 border-b pb-6">
+              <div className="space-y-4 border-b pb-6 border-white/20">
                 {lodge.highlights.map((item, index) => (
                   <div key={index} className="flex items-start gap-4">
                     <div className="mt-1">
@@ -227,7 +238,7 @@ export default function LodgeDetails() {
                     </div>
                     <div className="space-y-1">
                       <h4 className="text-base font-medium">{item.title}</h4>
-                      <p className="text-sm text-gray-500">
+                      <p className="text-sm text-white/70">
                         {item.description}
                       </p>
                     </div>
@@ -236,16 +247,16 @@ export default function LodgeDetails() {
               </div>
 
               {/* About Section */}
-              <div className="space-y-4 border-b pb-6">
+              <div className="space-y-4 border-b pb-6 border-white/20">
                 <h2 className="text-xl font-semibold">About this place</h2>
                 <div className="space-y-4">
                   <h3 className="text-base font-medium">The space</h3>
-                  <p className="text-sm text-gray-700">
+                  <p className="text-sm text-white/80">
                     {displayedDescription}
                   </p>
                   <Button
                     variant="ghost"
-                    className="bg-gray-100 text-slate-900 hover:bg-accent/70"
+                    className="bg-white/10 text-white hover:bg-white/20"
                     onClick={() => setShowFullDescription(!showFullDescription)}
                   >
                     {showFullDescription ? "Show less" : "See more"}
@@ -254,7 +265,7 @@ export default function LodgeDetails() {
               </div>
 
               {/* Sleep Section */}
-              <div className="space-y-4 border-b pb-6">
+              <div className="space-y-4 border-b pb-6 border-white/20">
                 <h2 className="text-xl font-semibold">Where you'll sleep</h2>
                 <img
                   className="w-full rounded-xl"
@@ -269,28 +280,28 @@ export default function LodgeDetails() {
                       <h3 className="text-base font-medium">
                         Bedroom {index + 1}
                       </h3>
-                      <p className="text-sm text-gray-500">{bedroom.type}</p>
+                      <p className="text-sm text-white/70">{bedroom.type}</p>
                     </div>
                   ))}
                 </div>
               </div>
 
               {/* Amenities List */}
-              <div className="space-y-4 border-b pb-6">
+              <div className="space-y-4 border-b pb-6 border-white/20">
                 <h2 className="text-xl font-semibold">
                   What this place offers
                 </h2>
                 <ul className="grid sm:grid-cols-2 gap-4 text-sm">
                   {lodge.amenities.map((item, index) => (
                     <li key={index} className="flex items-center gap-2">
-                      <Check className="w-4 h-4 text-green-500" />
+                      <Check className="w-4 h-4 text-green-400" />
                       {item}
                     </li>
                   ))}
                   {lodge.unavailableAmenities.map((item, index) => (
                     <li
                       key={index}
-                      className="flex items-center gap-2 text-gray-400"
+                      className="flex items-center gap-2 text-white/50"
                     >
                       <X className="w-4 h-4" />
                       Unavailable: {item}
@@ -300,11 +311,11 @@ export default function LodgeDetails() {
               </div>
 
               {/* Booking Calendar */}
-              <div className="space-y-4 border-b pb-2 mb-4">
+              <div className="space-y-4 border-b pb-2 mb-4 border-white/20">
                 <h1 className="text-1xl">
-                  5 nights in {lodge.location.split(",")[0]}
+                  5 nights in {lodge.location.address?.split(",")[0]}
                 </h1>
-                <p className="text-gray-500 text-sm">
+                <p className="text-white/70 text-sm">
                   {lodge.checkInDate} - {lodge.checkOutDate}
                 </p>
                 <div className="flex">
@@ -312,7 +323,7 @@ export default function LodgeDetails() {
                     mode="single"
                     selected={date}
                     onSelect={setDate}
-                    className="rounded-md w-fit border-none"
+                    className="rounded-md w-fit border-none bg-transparent"
                   />
                 </div>
               </div>
@@ -320,14 +331,16 @@ export default function LodgeDetails() {
           </Card>
 
           {/* Right Column - Booking Card */}
-          <Card className="flex-2 p-4 w-fit h-fit text-lg shadow-xl sticky top-10 hidden sm:block">
-            <CardDescription>Prices include all fees</CardDescription>
+          <Card className="flex-2 p-6 w-fit h-fit text-lg sticky top-10 hidden sm:block glassmorphism">
+            <CardDescription className="text-white/80">
+              Prices include all fees
+            </CardDescription>
             <CardContent className="p-0 pt-4">
               <CardHeader className="p-0 pb-4">
                 ${lodge.price} for 8 nights
               </CardHeader>
               <div className="grid grid-cols-2 gap-1">
-                <div className="border border-slate-200 p-2 flex flex-col text-xs rounded-tl-lg">
+                <div className="border border-white/30 p-2 flex flex-col text-xs rounded-tl-lg">
                   <label>CHECK IN</label>
                   <input
                     type="text"
@@ -336,7 +349,7 @@ export default function LodgeDetails() {
                     className="pt-1 font-medium bg-transparent"
                   />
                 </div>
-                <div className="border border-slate-200 p-2 flex flex-col text-xs rounded-tr-lg">
+                <div className="border border-white/30 p-2 flex flex-col text-xs rounded-tr-lg">
                   <label>CHECK OUT</label>
                   <input
                     type="text"
@@ -345,7 +358,7 @@ export default function LodgeDetails() {
                     className="pt-1 font-medium bg-transparent"
                   />
                 </div>
-                <div className="border border-slate-200 p-2 flex flex-col text-xs rounded-b-lg col-span-2">
+                <div className="border border-white/30 p-2 flex flex-col text-xs rounded-b-lg col-span-2">
                   <label>GUESTS</label>
                   <input
                     type="text"
@@ -354,10 +367,10 @@ export default function LodgeDetails() {
                   />
                 </div>
               </div>
-              <Button className="bg-black mt-4 w-full">
+              <Button className="bg-gradient-brand mt-4 w-full text-white font-semibold">
                 Check availability
               </Button>
-              <p className="text-center text-sm mt-2 text-gray-500">
+              <p className="text-center text-sm mt-2 text-white/60">
                 {lodge.cancellationPolicy}
               </p>
             </CardContent>
@@ -365,8 +378,8 @@ export default function LodgeDetails() {
         </section>
 
         {/* Reviews Section */}
-        <section className="p-6">
-          <div className="border-b pb-2 mb-4">
+        <section className="p-6 glassmorphism my-8">
+          <div className="border-b pb-2 mb-4 border-white/20">
             <h1 className="text-2xl font-bold font-sans">
               {lodge.rating.toFixed(2)}
             </h1>
@@ -377,7 +390,7 @@ export default function LodgeDetails() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 border-b pb-4 mb-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 border-b pb-4 mb-4 gap-4 border-white/20">
             {lodge.reviews.slice(0, 2).map((review, index) => (
               <div key={index} className="flex items-start space-x-4">
                 <Avatar>
@@ -389,7 +402,7 @@ export default function LodgeDetails() {
                 <div className="space-y-1 w-full">
                   <div>
                     <h4 className="text-sm font-semibold">{review.author}</h4>
-                    <p className="text-sm">
+                    <p className="text-sm text-white/80">
                       {review.hostingDuration} on Airbnb
                     </p>
                   </div>
@@ -403,7 +416,7 @@ export default function LodgeDetails() {
                       {" · "}
                       {review.date} · {review.hostingDuration}
                     </label>
-                    <p className="text-muted-foreground">{review.content}</p>
+                    <p className="text-white/80">{review.content}</p>
                   </div>
                 </div>
               </div>
@@ -411,19 +424,25 @@ export default function LodgeDetails() {
           </div>
 
           {/* Location Section */}
-          <div className="space-y-4 border-b pb-2 mb-4">
-            <h1 className="text-1xl">Where you'll be</h1>
-            <p className="text-gray-500 text-sm">{lodge.location}</p>
-            <div className="w-full h-64 bg-gray-200 rounded-lg">
-              {/* Map placeholder */}
+          <div className="space-y-4 border-b pb-2 mb-4 border-white/20">
+            <h1 className="text-xl font-semibold">Where you'll be</h1>
+            <p className="text-white/70 text-sm">{lodge.location.address}</p>
+            <div className="w-full h-64 rounded-lg overflow-hidden">
+              <MapSection
+                location={{
+                  lat: Number(lodge.location.coordinates.lat),
+                  lng: Number(lodge.location.coordinates.lng),
+                  address: lodge.location.address?.toString() || "",
+                }}
+              />
             </div>
           </div>
 
           {/* Host Profile Section */}
-          <div className="space-y-4 border-b pb-2 mb-4">
-            <h1 className="text-1xl">Meet your host</h1>
+          <div className="space-y-4 border-b pb-2 mb-4 border-white/20">
+            <h1 className="text-xl font-semibold">Meet your host</h1>
             <div className="flex flex-col sm:flex-row justify-between gap-6">
-              <Card className="w-full h-full max-w-[363px] max-h-[289px] grid grid-cols-3 rounded-2xl shadow-sm drop-shadow-lg p-4 gap-2">
+              <Card className="w-full h-full max-w-[363px] max-h-[289px] grid grid-cols-3 rounded-2xl p-4 gap-2 glassmorphism">
                 <div className="col-span-2 flex flex-col items-center justify-center space-y-1">
                   <Avatar className="w-28 h-28">
                     <AvatarImage src={lodge.host.avatar} />
@@ -433,23 +452,25 @@ export default function LodgeDetails() {
                     {lodge.host.name}
                   </CardHeader>
                   {lodge.host.isSuperhost && (
-                    <CardDescription>Superhost</CardDescription>
+                    <CardDescription className="text-neon">
+                      Superhost
+                    </CardDescription>
                   )}
                 </div>
                 <div>
-                  <div className="space-y-2 border-b text-xs font-extralight pb-2 mb-2">
+                  <div className="space-y-2 border-b text-xs font-light pb-2 mb-2 border-white/20">
                     <h2 className="text-xl font-semibold">
                       {lodge.host.reviewCount}
                     </h2>
                     <label>Reviews</label>
                   </div>
-                  <div className="space-y-2 border-b text-xs font-extralight pb-2 mb-2">
+                  <div className="space-y-2 border-b text-xs font-light pb-2 mb-2 border-white/20">
                     <h2 className="text-xl font-semibold">
                       {lodge.host.averageRating.toFixed(2)}
                     </h2>
                     <label>Rating</label>
                   </div>
-                  <div className="space-y-2 text-xs font-extralight pb-2 mb-2">
+                  <div className="space-y-2 text-xs font-light pb-2 mb-2">
                     <h2 className="text-xl font-semibold">
                       {new Date().getFullYear() -
                         new Date(lodge.host.hostingSince).getFullYear()}
@@ -459,22 +480,22 @@ export default function LodgeDetails() {
                 </div>
               </Card>
               <div className="space-y-3 text-lg">
-                <div className="space-y-1 text-sm text-gray-600 font-extralight">
-                  <h1 className="text-lg text-black">
+                <div className="space-y-1 text-sm text-white/80 font-medium">
+                  <h1 className="text-lg text-white">
                     {lodge.host.name} is a Superhost
                   </h1>
-                  <p className="text-sm text-gray-600 font-extralight">
+                  <p className="text-sm text-white/70 font-light">
                     Superhosts are experienced, highly rated hosts who are
                     committed to providing great stays for guests.
                   </p>
                 </div>
                 {lodge.host.cohosts && (
                   <div className="space-y-1">
-                    <h1 className="text-lg text-black">Co-hosts</h1>
+                    <h1 className="text-lg text-white">Co-hosts</h1>
                     {lodge.host.cohosts.map((cohost, index) => (
                       <div
                         key={index}
-                        className="space-y-1 text-sm text-gray-600 font-extralight space-x-2 flex items-center"
+                        className="space-y-1 text-sm text-white/80 font-light space-x-2 flex items-center"
                       >
                         <Avatar className="w-8 h-8">
                           <AvatarImage src={cohost.avatar} />
@@ -487,17 +508,19 @@ export default function LodgeDetails() {
                     ))}
                   </div>
                 )}
-                <div className="space-y-1 text-sm text-gray-600 font-extralight">
-                  <h1 className="text-lg text-black">Host details</h1>
+                <div className="space-y-1 text-sm text-white/80 font-light">
+                  <h1 className="text-lg text-white">Host details</h1>
                   <p>
                     Response rate: {lodge.host.responseRate}% <br />
                     Responds within an hour
                   </p>
                 </div>
                 <div className="">
-                  <Button className="bg-black">Message Host</Button>
+                  <Button className="bg-gradient-brand text-white font-semibold">
+                    Message Host
+                  </Button>
                 </div>
-                <div className="border-t text-xs text-gray-500 px-2 mt-4">
+                <div className="border-t text-xs text-white/50 px-2 mt-4 border-white/20">
                   <h5 className="my-4">
                     To help protect your payment, always use Airbnb to send
                     money and communicate with hosts

@@ -8,6 +8,8 @@ interface CarouselProps {
     id: number;
     imgSrc: string;
     alt: string;
+    title: string;
+    owner: string;
   }[];
 }
 
@@ -15,7 +17,6 @@ export default function Carousel({ slides }: CarouselProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [loadedImages, setLoadedImages] = useState<boolean[]>([]);
-  const slideWidth = 100; // percent
 
   const scrollTo = (index: number) => {
     const container = containerRef.current;
@@ -47,19 +48,16 @@ export default function Carousel({ slides }: CarouselProps) {
   }, [slides.length]);
 
   return (
-    <div className="relative w-full h-full overflow-hidden">
-      <div className="relative w-full h-full overflow-hidden  ">
+    <div className="w-full">
+      <div className="relative overflow-hidden rounded-xl">
         <div
-          className="flex transition-transform duration-300 ease-out scroll-snap-x scroll-smooth"
+          className="flex transition-transform duration-300 ease-out"
           style={{ transform: `translateX(-${selectedIndex * 100}%)` }}
           ref={containerRef}
         >
           {slides.map((slide, index) => (
-            <div
-              key={slide.id}
-              className="flex-[0_0_100%] snap-center min-w-0 flex-shrink-0 h-full"
-            >
-              <div className="relative w-full h-full rounded-lg overflow-hidden bg-gray-200 dark:bg-gray-800">
+            <div key={slide.id} className="flex-[0_0_100%]">
+              <div className="aspect-square w-full bg-gray-200 dark:bg-gray-800">
                 {!loadedImages[index] && (
                   <div className="absolute inset-0 flex items-center justify-center">
                     <div className="w-12 h-12 border-4 border-gray-300 dark:border-gray-600 border-l-gray-800 dark:border-l-gray-300 rounded-full animate-spin"></div>
@@ -72,7 +70,7 @@ export default function Carousel({ slides }: CarouselProps) {
                   src={
                     loadedImages[index]
                       ? slide.imgSrc
-                      : "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D"
+                      : "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="
                   }
                   alt={slide.alt}
                   onLoad={() => onImageLoad(index)}
@@ -86,40 +84,52 @@ export default function Carousel({ slides }: CarouselProps) {
         <button
           onClick={scrollPrev}
           disabled={selectedIndex === 0}
-          className={`absolute top-1/2 left-4 -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center bg-white/70 dark:bg-gray-800/70 text-gray-700 dark:text-gray-200 shadow-md transition-colors z-10 ${
-            selectedIndex === 0 ? "opacity-30 cursor-not-allowed" : ""
+          className={`absolute top-1/2 left-4 -translate-y-1/2 w-8 h-8 rounded-full flex items-center justify-center bg-white/80 dark:bg-gray-800/80 text-gray-700 dark:text-gray-200 shadow-md transition-opacity z-10 ${
+            selectedIndex === 0 ? "opacity-0 cursor-not-allowed" : "opacity-100"
           }`}
           aria-label="Previous"
         >
-          ←
+          &lt;
         </button>
         <button
           onClick={scrollNext}
           disabled={selectedIndex === slides.length - 1}
-          className={`absolute top-1/2 right-4 -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center bg-white/70 dark:bg-gray-800/70 text-gray-700 dark:text-gray-200 shadow-md transition-colors z-10 ${
+          className={`absolute top-1/2 right-4 -translate-y-1/2 w-8 h-8 rounded-full flex items-center justify-center bg-white/80 dark:bg-gray-800/80 text-gray-700 dark:text-gray-200 shadow-md transition-opacity z-10 ${
             selectedIndex === slides.length - 1
-              ? "opacity-30 cursor-not-allowed"
-              : ""
+              ? "opacity-0 cursor-not-allowed"
+              : "opacity-100"
           }`}
           aria-label="Next"
         >
-          →
+          &gt;
         </button>
-      </div>
 
-      {/* Dots */}
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
-        {slides.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => scrollTo(index)}
-            className={`w-3 h-3 rounded-full transition-colors ${
-              index === selectedIndex
-                ? "bg-gray-800 dark:bg-gray-200"
-                : "bg-gray-300 dark:bg-gray-700 hover:bg-gray-400 dark:hover:bg-gray-600"
-            }`}
-          />
-        ))}
+        {/* Dots */}
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+          {slides.map((_, index) => {
+            const handleDotClick = (e: React.MouseEvent) => {
+              e.stopPropagation();
+              scrollTo(index);
+            };
+            return (
+              <button
+                key={index}
+                onClick={handleDotClick}
+                className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                  index === selectedIndex
+                    ? "bg-neon scale-150 shadow-neon"
+                    : "bg-white/50 hover:bg-white/75"
+                }`}
+              />
+            );
+          })}
+        </div>
+      </div>
+      <div className="mt-3 px-1">
+        <h3 className="font-semibold text-white">
+          {slides[selectedIndex].title}
+        </h3>
+        <p className="text-sm text-white/70">{slides[selectedIndex].owner}</p>
       </div>
     </div>
   );

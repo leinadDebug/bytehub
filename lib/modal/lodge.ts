@@ -27,11 +27,19 @@ interface IReview extends Document {
     comment?: string;
 }
 
+interface ILocation {
+    address: string;
+    coordinates: {
+        lat: number;
+        lng: number;
+    };
+}
+
 interface ILodge extends Document {
     title: string;
     user: Types.ObjectId;  // Required reference to User (keeping your existing field)
     owner?: string;       // Optional string for backward compatibility
-    location?: string;
+    location?: ILocation;
     description?: string;
     price?: number;
     images?: string[];
@@ -49,6 +57,14 @@ interface ILodge extends Document {
     createdAt: Date;
     updatedAt: Date;
 }
+
+const LocationSchema = new Schema<ILocation>({
+    address: { type: String, default: 'Unknown' },
+    coordinates: {
+        lat: { type: Number, default: 0 },
+        lng: { type: Number, default: 0 }
+    }
+}, { _id: false });
 
 const HostSchema = new Schema<IHost>({
     name: { type: String, default: "Unknown Host" },
@@ -82,7 +98,7 @@ const LodgeSchema = new Schema<ILodge>(
         title: { type: String, required: true },
         user: { type: Schema.Types.ObjectId, ref: "User", required: false }, // Made optional for testing
         owner: { type: String }, // Optional for backward compatibility
-        location: { type: String, required: false },
+        location: { type: LocationSchema, required: false },
         description: { type: String, required: false },
         price: { type: Number, required: false, min: 0 },
         images: { type: [String], required: false, default: [] },

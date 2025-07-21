@@ -2,34 +2,9 @@ import { connect } from "@/lib/db";
 import LodgeModal from "@/lib/modal/lodge";
 import LodgesSection from "../components/LodgesSection";
 import FilterSection from "../components/FilterSection";
-import { cookies } from "next/headers";
-import { jwtVerify } from "jose";
-import UserModal from "@/lib/modal/user";
-import { Lodge, User } from "@/types/lodges";
 import { Header } from "../components/Header";
 import Footer from "../components/Footer/Footer";
-import { fetchLodges } from "@/lib/utils";
-
-async function getCurrentUser() {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("auth_token")?.value;
-
-  if (!token) return null;
-
-  try {
-    const secret = new TextEncoder().encode(process.env.JWT_SECRET!);
-    const { payload } = await jwtVerify(token, secret);
-
-    await connect();
-    const user = await UserModal.findById(payload.userId);
-
-    if (!user) return null;
-    return user;
-  } catch (err) {
-    console.error("Auth error:", err);
-    return null;
-  }
-}
+import { getCurrentUser } from "@/lib/auth";
 
 export default async function Dashboard() {
   try {
@@ -52,11 +27,13 @@ export default async function Dashboard() {
 
     return (
       <div>
-        <Header name={profile?.username || "Guest"} />
-        <main className="mx-10">
-          <FilterSection />
-          <LodgesSection lodges={lodges} />
-        </main>
+        <div className="min-h-screen max-w-7xl mx-auto">
+          <Header name={profile?.username || "Guest"} />
+          <main className="mx-5 sm:mx-10">
+            <FilterSection />
+            <LodgesSection lodges={lodges} />
+          </main>
+        </div>
         <footer>
           <Footer />
         </footer>

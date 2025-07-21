@@ -10,21 +10,21 @@ type Props = {};
 
 function Footer({}: Props) {
   return (
-    <Card className="bg-slate-100 px-10 lg:px-40 mt-auto">
-      <div className="flex flex-col max-w-7xl mx-auto">
-        <Card className="bg-slate-100 border-0 shadow-none">
-          <CardHeader className=" text-xl">
+    <Card className="glassmorphism px-10 lg:px-40 mt-auto">
+      <div className="flex flex-col max-w-7xl mx-auto text-white">
+        <Card className="bg-transparent border-0 shadow-none">
+          <CardHeader className="text-xl">
             Inspiration for future getaways
           </CardHeader>
           <CardContent>
             <div className="menubar items-start flex gap-5 overflow-x-auto pb-2">
-              <h1 className="underline hover:no-underline underline-offset-8 text-gray-500 hover:text-black transition-colors duration-200 whitespace-nowrap">
+              <h1 className="underline hover:no-underline underline-offset-8 text-white/80 hover:text-white transition-colors duration-200 whitespace-nowrap">
                 Unique stays
               </h1>
-              <h1 className="hover:underline underline-offset-8 text-gray-500 hover:text-black transition-colors duration-200 whitespace-nowrap">
+              <h1 className="hover:underline underline-offset-8 text-white/80 hover:text-white transition-colors duration-200 whitespace-nowrap">
                 Categories Travel tips & inspiration
               </h1>
-              <h1 className="hover:underline underline-offset-8 text-gray-500 hover:text-black transition-colors duration-200 whitespace-nowrap">
+              <h1 className="hover:underline underline-offset-8 text-white/80 hover:text-white transition-colors duration-200 whitespace-nowrap">
                 Airbnb-friendly apartments
               </h1>
             </div>
@@ -41,8 +41,8 @@ function Footer({}: Props) {
                   key={item}
                   className="hover:scale-[1.02] transition-transform duration-200"
                 >
-                  <label className="font-medium">{item}</label>
-                  <h2 className="text-gray-500 hover:text-black font-light text-sm transition-colors duration-200">
+                  <label className="font-medium text-white">{item}</label>
+                  <h2 className="text-white/70 hover:text-white font-light text-sm transition-colors duration-200">
                     United States
                   </h2>
                 </div>
@@ -90,9 +90,9 @@ function Footer({}: Props) {
           ].map((section) => (
             <Card
               key={section.title}
-              className="border-none shadow-none bg-slate-100 flex-1"
+              className="border-none shadow-none bg-transparent flex-1"
             >
-              <CardHeader className="text-lg font-medium">
+              <CardHeader className="text-lg font-semibold text-white">
                 {section.title}
               </CardHeader>
               <CardContent>
@@ -100,7 +100,7 @@ function Footer({}: Props) {
                   {section.items.map((item) => (
                     <li
                       key={item}
-                      className="hover:text-black transition-colors duration-200 cursor-pointer"
+                      className="hover:text-white text-white/80 transition-colors duration-200 cursor-pointer"
                     >
                       {item}
                     </li>
@@ -110,7 +110,7 @@ function Footer({}: Props) {
             </Card>
           ))}
         </div>
-        <CardFooter className="py-10 text-sm flex flex-col md:flex-row justify-between items-center gap-4 border-t">
+        <CardFooter className="py-10 text-sm flex flex-col md:flex-row justify-between items-center gap-4 border-t border-white/20 text-white/80">
           <div className="text-center md:text-left">
             &copy; 2025 Airbnb, Inc. · Terms · Sitemap · Privacy · Your Privacy
             Choices
@@ -126,5 +126,4 @@ function Footer({}: Props) {
     </Card>
   );
 }
-
 export default Footer;
