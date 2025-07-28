@@ -204,7 +204,9 @@ export function Header({ name }: HeaderProps) {
                 </DropdownMenuItem>
                 <DropdownMenuSeparator className="bg-white/20" />
                 <DropdownMenuItem className="hover:bg-white/20">
-                  Host an experience
+                  <Link href="/add-lodge" className="w-full">
+                    Host a lodge
+                  </Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

@@ -67,16 +67,18 @@ export default async function ({}: Props) {
             <CardContent className="p-0 space-y-6">
               <ul className="grid sm:grid-cols-2 gap-4 text-base md:text-sm text-white/80">
                 {[
-                  "Where I've always wanted to go",
-                  "My work",
-                  "My most useless skill",
-                  "Pets",
-                  "Where I went to school",
-                  "My favorite song in high school",
-                  "My fun fact",
-                  "My biography title would be",
-                  "Languages I speak",
-                  "I'm obsessed with",
+                  "Full Name",
+                  "Date of Birth",
+                  "Gender",
+                  "Nationality",
+                  "Phone",
+                  "Email",
+                  "Address",
+                  "Student ID",
+                  "Course",
+                  "Room Number",
+                  "Year",
+                  "NIN",
                 ].map((item, index) => (
                   <li
                     key={index}
