@@ -17,7 +17,11 @@ export const GET = async (request: Request) => {
             return new NextResponse(JSON.stringify({ message: 'user not found in the database' }), { status: 400 })
         }
         const Lodges = await Lodge.find({ user: new Types.ObjectId(userId) })
-        return new NextResponse(JSON.stringify(Lodges), { status: 200 })
+
+        // Ensure proper serialization for all lodges
+        const lodgesData = Lodges.map(lodge => lodge.toJSON());
+
+        return new NextResponse(JSON.stringify(lodgesData), { status: 200 })
     }
     catch (err: any) {
         return new NextResponse('Error in fetching lodges', { status: 500 })
@@ -48,7 +52,14 @@ export const POST = async (request: Request) => {
         const body = await request.json();
         const newLodge = new Lodge({ ...body, user: new Types.ObjectId(userId) });
         await newLodge.save();
-        return new NextResponse(JSON.stringify({ message: 'Lodge added Successfully..', Lodge: newLodge }), { status: 200 })
+
+        // Ensure proper serialization by converting to JSON
+        const lodgeData = newLodge.toJSON();
+
+        // Add some debugging to ensure the data is properly formatted
+        console.log('Created user lodge data:', JSON.stringify(lodgeData, null, 2));
+
+        return new NextResponse(JSON.stringify({ message: 'Lodge added Successfully..', Lodge: lodgeData }), { status: 200 })
     }
     catch (err) {
         return new NextResponse('Error in creating lodge', { status: 500 })

@@ -10,7 +10,11 @@ export const GET = async (req: Request) => {
         if (!lodgesData || lodgesData.length === 0) {
             return new NextResponse(JSON.stringify({ message: 'No available Lodges' }), { status: 400 })
         }
-        return new NextResponse(JSON.stringify(lodgesData))
+
+        // Ensure proper serialization for all lodges
+        const serializedLodges = lodgesData.map(lodge => lodge.toJSON());
+
+        return new NextResponse(JSON.stringify(serializedLodges))
     } catch (err) {
         return new NextResponse('Error in fetching lodges', { status: 500 })
     }

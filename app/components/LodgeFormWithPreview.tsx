@@ -59,5 +59,12 @@ const formSchema = z.object({
   beds: z.number().min(1, "At least 1 bed required"),
   bathrooms: z.number().min(1, "At least 1 bathroom required"),
   amenities: z.array(z.string()).min(1, "Select at least 1 amenity"),
-  images: z.array(z.string()).min(1, "At least 1 image required"),
+  images: z
+    .array(
+      z.object({
+        url: z.string(),
+        publicId: z.string().optional(),
+      })
+    )
+    .min(1, "At least 1 image required"),
 });

@@ -52,7 +52,7 @@ const LodgesSection = ({ lodges }: LodgesSectionProps) => {
 
           return (
             <div key={lodge._id} className="glassmorphism p-2">
-              <Link href={`/dashboard/lodges/${lodge._id}`}>
+              <Link href={`/lodge/${lodge._id}`}>
                 <Carousel slides={slides} />
               </Link>
             </div>

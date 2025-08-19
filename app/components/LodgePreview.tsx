@@ -1,7 +1,6 @@
-// LodgePreview.tsx
-
 import { Badge } from "@/components/ui/badge";
 import { Eye, MapPin } from "lucide-react";
+import Image from "next/image";
 
 interface LodgePreviewProps {
   formData: {
@@ -15,6 +14,7 @@ interface LodgePreviewProps {
     location?: {
       address?: string;
     };
+    images?: Array<{ url: string }>;
   };
 }
 
@@ -27,16 +27,28 @@ export const LodgePreview = ({ formData }: LodgePreviewProps) => {
       </h3>
 
       <div className="space-y-6">
-        {/* Image Placeholder */}
-        <div className="aspect-video rounded-xl bg-gradient-to-br from-blue-500/10 to-purple-500/10 flex items-center justify-center">
-          {formData.title ? (
-            <span className="text-lg text-white/70">{formData.title}</span>
-          ) : (
-            <span className="text-sm text-white/50">
-              Images will appear here
-            </span>
-          )}
-        </div>
+        {/* Main Image */}
+        {formData.images?.[0]?.url ? (
+          <div className="aspect-video relative rounded-xl overflow-hidden">
+            <Image
+              src={formData.images[0].url}
+              alt={formData.title || "Lodge preview"}
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            />
+          </div>
+        ) : (
+          <div className="aspect-video rounded-xl bg-gradient-to-br from-blue-500/10 to-purple-500/10 flex items-center justify-center">
+            {formData.title ? (
+              <span className="text-lg text-white/70">{formData.title}</span>
+            ) : (
+              <span className="text-sm text-white/50">
+                Images will appear here
+              </span>
+            )}
+          </div>
+        )}
 
         {/* Basic Info */}
         <div className="space-y-2">
@@ -111,6 +123,26 @@ export const LodgePreview = ({ formData }: LodgePreviewProps) => {
                 </Badge>
               )}
             </div>
+          </div>
+        )}
+
+        {/* Thumbnail Images */}
+        {formData.images && formData.images.length > 0 && (
+          <div className="mt-6 grid grid-cols-2 gap-2">
+            {formData.images.slice(0, 4).map((image, index) => (
+              <div
+                key={index}
+                className="aspect-square relative rounded-lg overflow-hidden"
+              >
+                <Image
+                  src={image.url}
+                  alt={`Preview image ${index + 1}`}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 20vw"
+                />
+              </div>
+            ))}
           </div>
         )}
       </div>

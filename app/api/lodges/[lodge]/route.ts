@@ -16,13 +16,16 @@ export async function GET(request: Request, { params }: { params: Promise<{ lodg
             );
         }
         await connect();
-        const foundlodge = await Lodge.findById({ _id: lodge }).lean();
+        const foundlodge = await Lodge.findById({ _id: lodge });
 
         if (!foundlodge) {
             return NextResponse.json({ error: 'Lodge not found' }, { status: 404 });
         }
 
-        return NextResponse.json(foundlodge);
+        // Ensure proper serialization by converting to JSON
+        const lodgeData = foundlodge.toJSON();
+
+        return NextResponse.json(lodgeData);
         // return <LodgeDetailsClient lodge={{ ...lodge, _id: lodge._id.toString() }} />;
     } catch (error) {
         return NextResponse.json(

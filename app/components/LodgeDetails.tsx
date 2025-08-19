@@ -21,7 +21,6 @@ import {
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import Footer from "../components/Footer/Footer";
-import { Calendar } from "@/components/ui/calendar";
 
 export default function LodgeDetails({ lodge }: { lodge: any }) {
   const [date, setDate] = useState<Date | undefined>(new Date());
@@ -240,20 +239,6 @@ export default function LodgeDetails({ lodge }: { lodge: any }) {
                     )
                   )}
                 </ul>
-              </div>
-              <div className="space-y-4 border-b pb-2 mb-4">
-                <h1 className="text-1xl ">5 nights in Florianópolis</h1>
-                <p className="text-gray-500 text-sm">
-                  May 18, 2025 - May 23, 2025
-                </p>
-                <div className="flex">
-                  <Calendar
-                    mode="single"
-                    selected={date}
-                    onSelect={setDate}
-                    className="rounded-md w-fit border-none"
-                  />
-                </div>
               </div>
             </CardContent>
           </Card>

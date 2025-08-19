@@ -37,7 +37,7 @@ interface ILocation {
 
 interface ILodge extends Document {
     title: string;
-    user: Types.ObjectId;  // Required reference to User (keeping your existing field)
+    user: string;  // Required reference to User (keeping your existing field)
     owner?: string;       // Optional string for backward compatibility
     location?: ILocation;
     description?: string;
@@ -54,15 +54,13 @@ interface ILodge extends Document {
     reviewCount?: number;
     sleepingArrangement?: ISleepingArrangement;
     highlights?: string[];
-    createdAt: Date;
-    updatedAt: Date;
 }
 
 const LocationSchema = new Schema<ILocation>({
     address: { type: String, default: 'Unknown' },
     coordinates: {
-        lat: { type: Number, default: 0 },
-        lng: { type: Number, default: 0 }
+        lat: { type: String, default: "0" },
+        lng: { type: String, default: "0" }
     }
 }, { _id: false });
 
@@ -96,7 +94,7 @@ const ReviewSchema = new Schema<IReview>({
 const LodgeSchema = new Schema<ILodge>(
     {
         title: { type: String, required: true },
-        user: { type: Schema.Types.ObjectId, ref: "User", required: false }, // Made optional for testing
+        user: { type: String, required: false }, // Made optional for testing
         owner: { type: String }, // Optional for backward compatibility
         location: { type: LocationSchema, required: false },
         description: { type: String, required: false },
@@ -124,7 +122,7 @@ const LodgeSchema = new Schema<ILodge>(
 
 // Add virtual for backward compatibility
 LodgeSchema.virtual('ownerId').get(function (this: ILodge) {
-    return this.user?._id || this.user;
+    return this.user;
 });
 
 const Lodge = models.Lodge || model<ILodge>("Lodge", LodgeSchema);

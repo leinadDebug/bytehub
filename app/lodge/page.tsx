@@ -13,7 +13,6 @@ import {
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import Footer from "../components/Footer/Footer";
-import { Calendar } from "@/components/ui/calendar";
 
 type Props = {};
 
@@ -210,15 +209,6 @@ export default function Lodge({}: Props) {
                 <p className="text-gray-500 text-sm">
                   May 18, 2025 - May 23, 2025
                 </p>
-                {/* //CALENDER */}
-                <div className="flex">
-                  <Calendar
-                    mode="single"
-                    selected={date}
-                    onSelect={setDate}
-                    className="rounded-md w-fit border-none"
-                  />
-                </div>
               </div>
             </CardContent>
           </Card>

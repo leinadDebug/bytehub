@@ -6,15 +6,14 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
 import Footer from "@/app/components/Footer/Footer";
 import { useParams } from "next/navigation";
 import { Location } from "@/types/lodges";
 import dynamic from "next/dynamic";
+import { Header } from "@/app/components/Header";
 
 interface LodgeHost {
   name: string;
@@ -308,24 +307,6 @@ export default function LodgeDetails() {
                     </li>
                   ))}
                 </ul>
-              </div>
-
-              {/* Booking Calendar */}
-              <div className="space-y-4 border-b pb-2 mb-4 border-white/20">
-                <h1 className="text-1xl">
-                  5 nights in {lodge.location.address?.split(",")[0]}
-                </h1>
-                <p className="text-white/70 text-sm">
-                  {lodge.checkInDate} - {lodge.checkOutDate}
-                </p>
-                <div className="flex">
-                  <Calendar
-                    mode="single"
-                    selected={date}
-                    onSelect={setDate}
-                    className="rounded-md w-fit border-none bg-transparent"
-                  />
-                </div>
               </div>
             </CardContent>
           </Card>

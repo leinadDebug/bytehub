@@ -43,7 +43,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
+import { ImageUpload } from "./ImageUpload";
 // ... other imports ...
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 interface LodgeFormProps {
   form: UseFormReturn<z.infer<typeof formSchema>>;
@@ -64,10 +67,18 @@ const formSchema = z.object({
   beds: z.number().min(1, "At least 1 bed required"),
   bathrooms: z.number().min(1, "At least 1 bathroom required"),
   amenities: z.array(z.string()).min(1, "Select at least 1 amenity"),
-  images: z.array(z.string()).min(1, "At least 1 image required"),
+  images: z
+    .array(
+      z.object({
+        url: z.string(),
+        publicId: z.string().optional(),
+      })
+    )
+    .min(1, "At least 1 image required"),
 });
 
 export function LodgeForm({ form }: LodgeFormProps) {
+  const router = useRouter();
   const amenitiesOptions = [
     "WiFi",
     "Private pool",
@@ -81,9 +92,70 @@ export function LodgeForm({ form }: LodgeFormProps) {
     "Workspace",
   ];
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values);
-    // Handle form submission
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    try {
+      // Try to get current user to attach lodge to user if authenticated
+      let userId: string | null = null;
+      try {
+        const meRes = await fetch("/api/auth/me", { cache: "no-store" });
+        if (meRes.ok) {
+          const me = await meRes.json();
+          userId = me?.user?.id ?? null;
+        }
+      } catch (_) {
+        // non-blocking if unauthenticated
+      }
+
+      const payload = {
+        title: values.title,
+        description: values.description,
+        price: values.price,
+        location: {
+          address: values.location.address,
+          coordinates: {
+            lat: parseFloat(values.location.coordinates.lat).toString(),
+            lng: parseFloat(values.location.coordinates.lng).toString(),
+          },
+        },
+        bedrooms: values.bedrooms,
+        beds: values.beds,
+        bathrooms: values.bathrooms,
+        amenities: values.amenities,
+        images: values.images.map((img) => img.url),
+      } as const;
+
+      const endpoint = userId
+        ? `/api/userlodges?userId=${encodeURIComponent(userId)}`
+        : "/api/lodges";
+
+      const res = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        let message = "Failed to create lodge";
+        try {
+          const err = await res.json();
+          message = err?.error || err?.message || message;
+        } catch {}
+        throw new Error(message);
+      }
+
+      const data = await res.json();
+      const created = data?.Lodge || data; // supports both /api/userlodges and /api/lodges responses
+
+      toast.success("Lodge published successfully");
+      // Reset and navigate to the new lodge page in dashboard
+      form.reset();
+      if (created?._id) {
+        router.push(`/lodge/${created._id}`);
+      }
+    } catch (error: any) {
+      console.error("Publish lodge error:", error);
+      toast.error(error?.message || "Failed to publish lodge");
+    }
   };
 
   return (
@@ -93,9 +165,6 @@ export function LodgeForm({ form }: LodgeFormProps) {
           {/* Floating Header */}
           <div className=" top-4 z-10 mb-8 p-6 rounded-2xl bg-white/5 border border-white/10 shadow-lg">
             <div className="flex items-center gap-4">
-              <div className="p-3 rounded-xl bg-gradient-to-br from-blue-400/20 to-purple-500/20">
-                <HomeIcon className="w-8 h-8 text-white" />
-              </div>
               <div>
                 <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-blue-100">
                   List Your Student Lodge
@@ -110,23 +179,6 @@ export function LodgeForm({ form }: LodgeFormProps) {
 
           {/* Main Form Container */}
           <div className="space-y-8">
-            {/* Progress Indicator */}
-            <div className="p-6 rounded-2xl bg-white/5 border border-white/10 shadow-lg">
-              <div className="flex justify-between mb-2 text-sm text-white/80">
-                <span>0%</span>
-                <span>100%</span>
-              </div>
-              <div className="h-3 rounded-full bg-white/10 overflow-hidden">
-                <div
-                  className="h-full bg-gradient-to-r from-blue-400 to-purple-500 transition-all duration-500"
-                  style={{ width: "25%" }}
-                />
-              </div>
-              <p className="mt-2 text-xs text-center text-white/60">
-                Section 1 of 4 - Basic Information
-              </p>
-            </div>
-
             {/* Basic Information Section */}
             <div className="p-6 rounded-2xl bg-white/5 border border-white/10 shadow-lg">
               <div className="flex items-center gap-3 mb-6">
@@ -498,46 +550,39 @@ export function LodgeForm({ form }: LodgeFormProps) {
             </div>
 
             {/* Images Upload Section */}
-            <div className="p-6 rounded-2xl bg-white/5 border border-white/10 shadow-lg">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="p-2 rounded-lg bg-pink-500/20">
-                  <Camera className="w-5 h-5 text-pink-300" />
-                </div>
-                <h2 className="text-xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-white to-pink-100">
-                  Lodge Photos
-                </h2>
-              </div>
-
-              <p className="text-sm text-white/70 mb-6">
-                Upload high-quality photos of your lodge (minimum 3). First
-                image will be featured.
-              </p>
-
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                {[...Array(5)].map((_, i) => (
-                  <div
-                    key={i}
-                    className="group aspect-square rounded-xl overflow-hidden relative border-2 border-dashed border-white/20 hover:border-white/40 transition-all duration-300 cursor-pointer"
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-white/10 flex flex-col items-center justify-center p-4 text-center">
-                      <Plus className="w-8 h-8 mx-auto mb-2 text-white/50 group-hover:text-white/70 transition-colors" />
-                      <span className="text-sm text-white/50 group-hover:text-white/70 transition-colors">
-                        Add photo {i + 1}
-                      </span>
+            <FormField
+              control={form.control}
+              name="images"
+              render={({ field }) => (
+                <FormItem>
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="p-2 rounded-lg bg-pink-500/20">
+                      <Camera className="w-5 h-5 text-pink-300" />
                     </div>
-                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                      <div className="bg-black/40 rounded-full p-2">
-                        <UploadCloud className="w-5 h-5 text-white" />
-                      </div>
-                    </div>
+                    <h2 className="text-xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-white to-pink-100">
+                      Lodge Photos
+                    </h2>
                   </div>
-                ))}
-              </div>
-              <p className="mt-3 text-xs text-white/50">
-                Tip: Include bedroom, kitchen, bathroom, exterior, and common
-                areas
-              </p>
-            </div>
+
+                  <p className="text-sm text-white/70 mb-6">
+                    Upload high-quality photos of your lodge (minimum 3). First
+                    image will be featured.
+                  </p>
+
+                  <FormControl>
+                    <ImageUpload
+                      value={field.value}
+                      onChange={field.onChange}
+                    />
+                  </FormControl>
+                  <FormMessage className="text-red-400/90" />
+                  <p className="mt-3 text-xs text-white/50">
+                    Tip: Include bedroom, kitchen, bathroom, exterior, and
+                    common areas
+                  </p>
+                </FormItem>
+              )}
+            />
 
             {/* Action Buttons */}
             <div className="p-6 rounded-2xl bg-white/5 border border-white/10 shadow-lg">
