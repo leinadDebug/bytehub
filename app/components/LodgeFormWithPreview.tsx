@@ -11,8 +11,6 @@ export function LodgeFormWithPreview() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: "",
-      description: "",
-      price: 0,
       location: {
         address: "",
         coordinates: {
@@ -20,11 +18,21 @@ export function LodgeFormWithPreview() {
           lng: "",
         },
       },
+      description: "",
+      images: [],
+      amenities: [],
       bedrooms: 1,
       beds: 1,
+      price: 0,
       bathrooms: 1,
-      amenities: [],
-      images: [],
+      host: {
+        name: "",
+        avatar: "",
+        isSuperhost: false,
+        response: 0,
+        reviewCount: 0,
+        averageRating: 0,
+      },
     },
   });
 
@@ -59,6 +67,14 @@ const formSchema = z.object({
   beds: z.number().min(1, "At least 1 bed required"),
   bathrooms: z.number().min(1, "At least 1 bathroom required"),
   amenities: z.array(z.string()).min(1, "Select at least 1 amenity"),
+  host: z.object({
+    name: z.string(),
+    avatar: z.string(),
+    isSuperhost: z.boolean(),
+    response: z.number().min(0),
+    reviewCount: z.number().min(0),
+    averageRating: z.number().min(0),
+  }),
   images: z
     .array(
       z.object({

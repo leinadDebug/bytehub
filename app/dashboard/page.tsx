@@ -29,20 +29,44 @@ export default async function Dashboard({
       owner: lodgeInDb.user ? lodgeInDb.user.toString() : "Unknown",
     }));
 
-    // const mockLodges = await fetchLodges<Lodge>(
-    //   "https://6878e5f263f24f1fdc9fed51.mockapi.io/freeapi/Lodge"
-    // );
-
     return (
-      <div>
-        <div className="min-h-screen max-w-7xl mx-auto">
+      <div className="min-h-screen w-full relative overflow-hidden bg-[#0b0b0b] text-white">
+        {/* dotted grid bg */}
+        <div
+          aria-hidden
+          className="absolute inset-0 opacity-20 pointer-events-none"
+          style={{
+            backgroundImage:
+              "radial-gradient(rgba(255,255,255,0.12) 1px, transparent 1px)",
+            backgroundSize: "22px 22px",
+          }}
+        />
+
+        {/* gradient blobs */}
+        <div className="absolute -left-40 top-56 h-[420px] w-[420px] rounded-full blur-3xl opacity-70 bg-gradient-to-tr from-orange-800 via-orange-600 to-red-700" />
+        <div className="absolute right-20 bottom-36 h-[300px] w-[300px] rounded-full blur-2xl opacity-80 bg-gradient-to-br from-orange-500/70 via-orange-400/50 to-yellow-300/40" />
+
+        {/* main container */}
+        <div className="relative z-10 min-h-screen max-w-7xl mx-auto">
           <Header name={profile?.username || "Guest"} />
-          <main className="mx-5 sm:mx-10">
+
+          <main className="mx-5 sm:mx-10 py-10">
             <FilterSection />
             <LodgesSection lodges={lodges} />
           </main>
         </div>
-        <footer>
+
+        {/* watermark */}
+        <div
+          aria-hidden
+          className="absolute inset-x-0 bottom-24 mx-auto select-none text-center font-extrabold tracking-tight text-gray-500/20"
+          style={{ fontSize: "16vw", lineHeight: 0.9 }}
+        >
+          DASHBOARD
+        </div>
+
+        {/* footer */}
+        <footer className="relative z-20">
           <Footer />
         </footer>
       </div>

@@ -3,6 +3,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { AvatarImage } from "@radix-ui/react-avatar";
@@ -21,7 +22,7 @@ export default async function Profile_header() {
 
   return (
     <div>
-      <header className="glassmorphism sticky top-0 z-10">
+      <header className="glassmorphism sticky top-0 z-10 ">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
@@ -56,30 +57,36 @@ export default async function Profile_header() {
                   align="end"
                   className="w-56 glassmorphism text-white border-white/20"
                 >
-                  <DropdownMenuItem className="font-medium hover:bg-white/20">
-                    Sign up
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="hover:bg-white/20">
-                    Log in
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="hover:bg-white/20">
-                    <Link href="/dashboard" className="w-full">
-                      Dashboard
-                    </Link>
-                  </DropdownMenuItem>
                   <DropdownMenuItem className="hover:bg-white/20">
                     <Link href="/profile" className="w-full">
                       Profile
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem className="hover:bg-white/20">
-                    Host your home
+                    <Link href="/dashboard" className="w-full">
+                      Dashboard
+                    </Link>
                   </DropdownMenuItem>
-                  <DropdownMenuItem className="hover:bg-white/20">
-                    Host an experience
-                  </DropdownMenuItem>
+                  <DropdownMenuSeparator className="bg-white/20" />
                   <DropdownMenuItem className="hover:bg-white/20">
                     Help
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="hover:bg-white/20">
+                    Log in
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="font-medium hover:bg-white/20">
+                    Sign up
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator className="bg-white/20" />
+                  <DropdownMenuItem className="hover:bg-white/20">
+                    <Link href="/add-lodge" className="w-full">
+                      Host a lodge
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="hover:bg-white/20">
+                    <Link href="/manage-lodge" className="w-full">
+                      Manage a lodge
+                    </Link>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>

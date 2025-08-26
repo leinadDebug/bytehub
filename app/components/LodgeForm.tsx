@@ -47,6 +47,7 @@ import { ImageUpload } from "./ImageUpload";
 // ... other imports ...
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import { hostname } from "os";
 
 interface LodgeFormProps {
   form: UseFormReturn<z.infer<typeof formSchema>>;
@@ -67,6 +68,14 @@ const formSchema = z.object({
   beds: z.number().min(1, "At least 1 bed required"),
   bathrooms: z.number().min(1, "At least 1 bathroom required"),
   amenities: z.array(z.string()).min(1, "Select at least 1 amenity"),
+  host: z.object({
+    name: z.string(),
+    avatar: z.string(),
+    isSuperhost: z.boolean(),
+    response: z.number().min(0),
+    reviewCount: z.number().min(0),
+    averageRating: z.number().min(0),
+  }),
   images: z
     .array(
       z.object({
@@ -108,6 +117,7 @@ export function LodgeForm({ form }: LodgeFormProps) {
 
       const payload = {
         title: values.title,
+        hostname: values.host.name,
         description: values.description,
         price: values.price,
         location: {
@@ -204,6 +214,27 @@ export function LodgeForm({ form }: LodgeFormProps) {
                         <FormControl>
                           <Input
                             placeholder="e.g., Luxury Beachfront Lodge"
+                            className="bg-white/5 border-white/10 hover:bg-white/10 focus:bg-white/10 focus:ring-2 focus:ring-blue-400/50"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage className="text-red-400/90" />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="host.name"
+                    render={({ field }) => (
+                      <FormItem className="space-y-2">
+                        <FormLabel className="text-white/80 flex items-center gap-2">
+                          <PenTool className="w-4 h-4" />
+                          HostName
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="e.g., Solomon"
                             className="bg-white/5 border-white/10 hover:bg-white/10 focus:bg-white/10 focus:ring-2 focus:ring-blue-400/50"
                             {...field}
                           />

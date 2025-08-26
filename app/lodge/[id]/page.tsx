@@ -76,7 +76,6 @@ const MapSection = dynamic(() => import("../../components/MapSection"), {
 });
 
 export default function LodgeDetails() {
-  const [date, setDate] = useState<Date | undefined>(new Date());
   const [lodge, setLodge] = useState<Lodge | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -141,7 +140,7 @@ export default function LodgeDetails() {
       }`;
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white flex flex-col">
+    <div className="min-h-screen relative flex flex-col bg-[#0b0b0b] text-white">
       <div className="px-5 md:px-10 lg:px-15 flex-grow max-w-7xl mx-auto">
         {/* Main Image Section */}
         <section>
