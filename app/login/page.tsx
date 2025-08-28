@@ -1,12 +1,13 @@
 "use client";
 
+import { useThemeStore } from "@/lib/store/theme";
 import { Lock, Mail } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function LoginPage() {
-  const [theme, setTheme] = useState<"light" | "dark">("dark");
+  const { theme, setTheme } = useThemeStore();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -176,7 +177,7 @@ export default function LoginPage() {
 
             {/* Footer */}
             <div className="pt-2 text-center">
-              <p className="text-gray-500 dark:text-gray-400 text-sm">
+              <p className="text-xs md:text-sm opacity-70">
                 Don’t have an account?{" "}
                 <Link
                   href="/register"
