@@ -1,0 +1,317 @@
+<html>
+  <head>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+    <link
+      rel="stylesheet"
+      as="style"
+      onload="this.rel='stylesheet'"
+      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter%3Awght%40400%3B500%3B700%3B900&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900"
+    />
+
+    <title>Stitch Design</title>
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    
+  </head>
+  <body>
+    <div class="relative flex size-full  flex-col bg-[#111a22] dark group/design-root overflow-x-hidden" style='font-family: Inter, "Noto Sans", sans-serif;'>
+      <div class="layout-container flex  grow flex-col">
+        <header class="flex items-center justify-between whitespace-nowrap border-b bg-[#111a22] border-solid border-b-[#233648] px-10 py-3 sticky top-0">
+          <div class="flex items-center gap-8">
+            <div class="flex items-center gap-4 text-white">
+              <div class="size-4">
+                <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z"
+                    fill="currentColor"
+                  ></path>
+                </svg>
+              </div>
+              <h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">
+                Byte
+                <span >
+                  <span class=" text-gray-400">Devs</span>
+                  />
+                </span>
+              </h2>
+            </div>
+            <div class="flex items-center gap-9">
+              <a class="text-white text-sm font-medium leading-normal" href="#">List your place</a>
+              <a class="text-white text-sm font-medium leading-normal" href="#">Help</a>
+            </div>
+          </div>
+          <div class="flex flex-1 justify-end gap-8">
+            <label class="flex flex-col min-w-40 !h-10 max-w-64">
+              <div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+                <div class="text-[#92adc9] flex border-none bg-[#233648] items-center justify-center pl-4 rounded-l-lg border-r-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                    <path
+                      d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"
+                    ></path>
+                  </svg>
+                </div>
+                <input
+                  id="searchInput"
+                  placeholder="Search"
+                  class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-white focus:outline-0 focus:ring-0 border-none bg-[#233648] focus:border-none h-full placeholder:text-[#92adc9] px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal"
+                  oninput="handleSearch(this.value)"
+                />
+              </div>
+            </label>
+            <div class="flex items-center gap-2">
+                <button id="prevMatch" class="text-white px-2 py-1 bg-gray-700 rounded">⬆</button>
+                <button id="nextMatch" class="text-white px-2 py-1 bg-gray-700 rounded">⬇</button>
+              </div>
+          </div>
+          
+        </header>
+
+        <div class="gap-1 px-6 flex flex-1 justify-center  ">
+          <!-- Sidebar -->
+          <aside class="hidden md:flex layout-content-container flex-col w-80 sticky top-16 h-[calc(100vh-4rem)] py-5">
+            <div class="flex flex-col justify-between bg-[#111a22] p-4 h-full overflow-y-auto">
+              <div class="flex flex-col gap-4">
+                <div class="flex flex-col">
+                  <h1 class="text-white text-base font-medium leading-normal">Documentation</h1>
+                  <p class="text-[#92adc9] text-sm font-normal leading-normal">StayFinder Platform</p>
+                </div>
+                <div class="flex flex-col gap-2">
+                  <div class="nav-item flex items-center gap-3 px-3 py-2 rounded-lg bg-[#233648] cursor-pointer" data-target="getting-started"><p class="text-white text-sm font-medium leading-normal">Getting Started</p></div>
+                  <div class="nav-item flex items-center gap-3 px-3 py-2 cursor-pointer" data-target="api-reference"><p class="text-white text-sm font-medium leading-normal">API Reference</p></div>
+                  <div class="nav-item flex items-center gap-3 px-3 py-2 cursor-pointer" data-target="admin-features"><p class="text-white text-sm font-medium leading-normal">Admin Features</p></div>
+                  <div class="nav-item flex items-center gap-3 px-3 py-2 cursor-pointer" data-target="superadmin-features"><p class="text-white text-sm font-medium leading-normal">SuperAdmin Features</p></div>
+                  <div class="nav-item flex items-center gap-3 px-3 py-2 cursor-pointer" data-target="troubleshooting"><p class="text-white text-sm font-medium leading-normal">Troubleshooting</p></div>
+                  <div class="nav-item flex items-center gap-3 px-3 py-2 cursor-pointer" data-target="system-architecture"><p class="text-white text-sm font-medium leading-normal">System Architecture</p></div>
+                  <div class="nav-item flex items-center gap-3 px-3 py-2 cursor-pointer" data-target="version-history"><p class="text-white text-sm font-medium leading-normal">Version History</p></div>
+                  <div class="nav-item flex items-center gap-3 px-3 py-2 cursor-pointer" data-target="contact-support"><p class="text-white text-sm font-medium leading-normal">Contact Support</p></div>
+                </div>
+              </div>
+            </div>
+          </aside>
+
+          <!-- Content -->
+          <div class="layout-content-container flex flex-col max-w-[960px] flex-1 py-5 ">
+            <section id="getting-started">
+              <div class="flex flex-wrap justify-between gap-3 p-4"><p class="text-white tracking-light text-[32px] font-bold leading-tight min-w-72">Getting Started</p></div>
+              <h3 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Introduction</h3>
+              <p class="text-white text-base font-normal leading-normal pb-3 pt-1 px-4">
+                Welcome to the StayFinder Platform Documentation. This comprehensive guide is designed to assist administrators and developers in understanding, utilizing, and
+              maintaining the StayFinder system. Here, you'll find detailed information on system architecture, API references, admin feature guides, troubleshooting tips, and
+              more. Our goal is to provide you with all the necessary resources to effectively manage and enhance the StayFinder platform.
+              </p>
+              <h3 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Navigating the Documentation</h3>
+            <p class="text-white text-base font-normal leading-normal pb-3 pt-1 px-4">
+              Use the sidebar on the left to navigate through different sections of the documentation. Each section covers a specific aspect of the StayFinder platform, from
+              initial setup and API usage to troubleshooting common issues and understanding the system's architecture. The search bar at the top allows you to quickly find
+              specific topics or keywords within the documentation.
+            </p>
+            <h3 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Key Features</h3>
+            <p class="text-white text-base font-normal leading-normal pb-3 pt-1 px-4">
+              StayFinder offers a robust set of features for managing accommodations, bookings, and user interactions. Key features include: - **Accommodation Management:** Add,
+              update, and manage property listings with detailed information and availability. - **Booking System:** Handle reservations, cancellations, and modifications with
+              real-time updates. - **User Management:** Manage user accounts, roles, and permissions within the platform. - **API Access:** Utilize our comprehensive API for
+              integrating StayFinder with other systems and applications. - **Reporting and Analytics:** Access detailed reports on bookings, revenue, and user activity.
+            </p>
+            <h3 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Getting Started</h3>
+            <p class="text-white text-base font-normal leading-normal pb-3 pt-1 px-4">
+              To get started, we recommend exploring the 'API Reference' section for developers and the 'Admin Features' section for administrators. These sections provide detailed
+              guides and examples to help you effectively use the StayFinder platform. For any immediate issues, refer to the 'Troubleshooting' section for solutions to common
+              problems. If you encounter any difficulties or have questions, please don't hesitate to contact our support team through the 'Contact Support' section.
+            </p>
+            </section>
+
+            <section id="api-reference">
+              <h3 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">API Reference</h3>
+              <p class="text-white text-base font-normal leading-normal pb-3 pt-1 px-4">
+                API Reference content goes here...
+              </p>
+            </section>
+
+            <section id="admin-features">
+              <h3 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Admin Features</h3>
+              <p class="text-white text-base font-normal leading-normal pb-3 pt-1 px-4">
+                Admin Features documentation goes here...
+              </p>
+            </section>
+
+            <section id="superadmin-features">
+              <div class="flex flex-wrap justify-between gap-3 p-4"><p class="text-white tracking-light text-[32px] font-bold leading-tight min-w-72">Super Admin Features</p></div>
+              <h3 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Introduction</h3>
+              <p class="text-white text-base font-normal leading-normal pb-3 pt-1 px-4">
+                As a SuperAdmin, you have complete control over the platform, allowing you to manage users, lodges, payments, and system-wide settings. To get started, we recommend exploring the sections below to understand your key responsibilities and capabilities.
+              </p>
+              
+              <h4 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">
+                 User Management
+              </h4>
+              <ul class="text-white text-base font-normal leading-normal pb-3 pt-1 px-4">
+                <li><strong>Approve Host Signups:</strong> Hosts cannot operate until approved by SuperAdmin.</li>
+                <li><strong>Ban or Remove Users:</strong> Temporarily or permanently remove students, hosts, or owners who violate rules.</li>
+                <li><strong>Role Management:</strong> Upgrade or downgrade user roles (e.g., Host → Owner, Student → Host).</li>
+                <li><strong>View Platform-Wide User List:</strong> Access all users, their roles, status, and activity logs.</li>
+              </ul>
+              
+              <h4 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">
+                 Lodge Management
+              </h4>
+              <ul class="text-white text-base font-normal leading-normal pb-3 pt-1 px-4">
+                <li><strong>Delete Any Lodge:</strong> Remove problematic lodges from the platform.</li>
+                <li><strong>Edit Lodge Details:</strong> Modify or correct lodge information if the host cannot.</li>
+                <li><strong>Oversee All Lodges:</strong> View all lodges across the platform, including bookings and reports.</li>
+              </ul>
+              
+              <h4 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">
+                 Platform Configuration
+              </h4>
+              <ul class="text-white text-base font-normal leading-normal pb-3 pt-1 px-4">
+                <li><strong>Payment Gateway Management:</strong> Configure global payment integrations like Stripe, Paystack, and Flutterwave.</li>
+                <li><strong>Set Transaction Fees & Payout Rules:</strong> Adjust fees, payout schedules, or commission percentages.</li>
+                <li><strong>Global Settings:</strong> Manage system-wide settings such as themes, currency options, notification templates, and default policies.</li>
+              </ul>
+              
+              <h4 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">
+                 Reporting & Monitoring
+              </h4>
+              <ul class="text-white text-base font-normal leading-normal pb-3 pt-1 px-4">
+                <li><strong>Platform Usage Analytics:</strong> Track active users, lodges, bookings, complaints, and revenue trends.</li>
+                <li><strong>Audit Logs:</strong> See detailed logs of all actions performed across the system.</li>
+                <li><strong>Financial Reports:</strong> Overview of platform-wide revenue, fees collected, and payout summaries.</li>
+              </ul>
+              
+              <h4 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">
+                 Security & Maintenance
+              </h4>
+              <ul class="text-white text-base font-normal leading-normal pb-3 pt-1 px-4">
+                <li><strong>Access All Data:</strong> Full access to sensitive or private data for troubleshooting.</li>
+                <li><strong>Monitor Suspicious Activity:</strong> Detect unusual behavior such as multiple failed logins or fraud attempts.</li>
+                <li><strong>Emergency Actions:</strong> Temporarily disable parts of the system or freeze transactions if needed.</li>
+              </ul>
+              
+              <h4 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">
+                 Communication
+              </h4>
+              <ul class="text-white text-base font-normal leading-normal pb-3 pt-1 px-4">
+                <li><strong>Broadcast Messages:</strong> Send announcements or alerts to all users, hosts, or owners.</li>
+                <li><strong>Support Escalation:</strong> Access unresolved complaints and escalate them if hosts fail to act.</li>
+              </ul>
+              
+              <p class="text-white text-base font-normal leading-normal pb-3 pt-1 px-4">
+                For detailed instructions on performing these actions, refer to the <strong>'Admin Features'</strong> section. For developer integrations, see the <strong>'API Reference'</strong>, and for issues or questions, consult <strong>'Troubleshooting'</strong> or contact <strong>'Support'</strong>.
+              </p>
+            </section>
+
+            <section id="troubleshooting">
+              <h3 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Troubleshooting</h3>
+              <p class="text-white text-base font-normal leading-normal pb-3 pt-1 px-4">
+                Troubleshooting content goes here...
+              </p>
+            </section>
+
+            <section id="system-architecture">
+              <h3 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">System Architecture</h3>
+              <p class="text-white text-base font-normal leading-normal pb-3 pt-1 px-4">
+                System architecture content goes here...
+              </p>
+            </section>
+
+            <section id="version-history">
+              <h3 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Version History</h3>
+              <p class="text-white text-base font-normal leading-normal pb-3 pt-1 px-4">
+                Version history content goes here...
+              </p>
+            </section>
+
+            <section id="contact-support">
+              <h3 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Contact Support</h3>
+              <p class="text-white text-base font-normal leading-normal pb-3 pt-1 px-4">
+                Contact support content goes here...
+              </p>
+            </section>
+          </div>
+        </div>
+      </div>
+
+      <script>
+        // Sidebar navigation functionality
+        const navItems = document.querySelectorAll(".nav-item");
+        navItems.forEach(item => {
+          item.addEventListener("click", () => {
+            // Remove active state from all
+            navItems.forEach(i => i.classList.remove("bg-[#233648]"));
+            // Add active state to clicked
+            item.classList.add("bg-[#233648]");
+            // Scroll to target section
+            const target = document.getElementById(item.dataset.target);
+            if(target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+          });
+        });
+      </script>
+      <script>
+        
+        const sections = document.querySelectorAll('section');
+      
+        // Sidebar click functionality
+        navItems.forEach(item => {
+          item.addEventListener("click", () => {
+            navItems.forEach(i => i.classList.remove("bg-[#233648]"));
+            item.classList.add("bg-[#233648]");
+            const target = document.getElementById(item.dataset.target);
+            if(target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+          });
+        });
+      
+        let matches = [];
+        let currentMatchIndex = 0;
+      
+        function handleSearch(query) {
+          query = query.toLowerCase().trim();
+          currentMatchIndex = 0;
+      
+          if (!query) {
+            sections.forEach(sec => sec.style.outline = '');
+            return;
+          }
+      
+          matches = [];
+          sections.forEach(section => {
+            const text = section.textContent.toLowerCase();
+            if (text.includes(query)) matches.push(section);
+            section.style.outline = '';
+          });
+      
+          if (matches.length > 0) {
+            scrollToMatch(0);
+          }
+        }
+      
+        function scrollToMatch(index) {
+          const section = matches[index];
+          section.scrollIntoView({ behavior: "smooth", block: "start" });
+      
+          // Highlight current match
+          sections.forEach(sec => sec.style.outline = '');
+      
+          // Highlight sidebar
+          navItems.forEach(item => {
+            item.classList.remove("bg-[#233648]");
+            if(item.dataset.target === section.id) item.classList.add("bg-[#233648]");
+          });
+        }
+      
+        // Navigation buttons
+        document.getElementById('nextMatch').addEventListener('click', () => {
+          if(matches.length === 0) return;
+          currentMatchIndex = (currentMatchIndex + 1) % matches.length;
+          scrollToMatch(currentMatchIndex);
+        });
+      
+        document.getElementById('prevMatch').addEventListener('click', () => {
+          if(matches.length === 0) return;
+          currentMatchIndex = (currentMatchIndex - 1 + matches.length) % matches.length;
+          scrollToMatch(currentMatchIndex);
+        });
+      </script>
+      
+    </div>
+  </body>
+</html>
