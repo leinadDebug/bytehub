@@ -121,8 +121,7 @@ export default async function Page() {
   const userLodges = lodges.filter((lodge) => lodge.user === currentUserId);
   return (
     <div className="bg-[#0b0b0b] min-h-screen">
-      {/* <Profile_header /> */}
-      {/* <Profile_header /> */}
+      <Profile_header />
       <LodgePage lodges={userLodges} />
       <Footer />
     </div>

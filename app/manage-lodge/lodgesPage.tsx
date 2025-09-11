@@ -55,9 +55,15 @@ export default function LodgeManagementPage({ lodges }: Props) {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
           <div>
-            <h2 className="text-3xl font-bold bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">
+            <h1
+              className={`text-2xl md:text-3xl font-bold tracking-tight ${
+                theme === "dark"
+                  ? "bg-gradient-to-r from-white via-rose-100 to-pink-100 bg-clip-text text-transparent"
+                  : "text-gray-900"
+              }`}
+            >
               Lodge Management
-            </h2>
+            </h1>
             <p
               className={`text-sm sm:text-base mt-2 leading-relaxed ${textSecondary}`}
             >

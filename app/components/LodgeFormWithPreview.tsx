@@ -5,8 +5,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { LodgeForm } from "./LodgeForm";
 import { LodgePreview } from "./LodgePreview";
 import * as z from "zod";
+import { useThemeStore } from "@/lib/store/theme";
 
 export function LodgeFormWithPreview() {
+  const { theme } = useThemeStore();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -37,15 +39,24 @@ export function LodgeFormWithPreview() {
   });
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-      {/* Form Section - 2/3 width on large screens */}
-      <div className="lg:col-span-2">
-        <LodgeForm form={form} />
-      </div>
-
-      {/* Preview Section - 1/3 width on large screens, hidden on mobile */}
-      <div className="hidden lg:block mb-4">
-        <LodgePreview formData={form.watch()} />
+    <div
+      className={` ${
+        theme == "dark"
+          ? "bg-[#0b0b0b] min-h-screen"
+          : "bg-gradient-to-br from-gray-50 via-white to-gray-50"
+      }`}
+    >
+      <div className="max-w-7xl grid grid-cols-1 gap-8 lg:grid-cols-3 mx-auto">
+        {" "}
+        {/* Form Section */}
+        <div className="lg:col-span-2">
+          <LodgeForm form={form} theme={theme} />
+        </div>
+        {/* Preview Section */}
+        <div className="hidden lg:block lg:col-span-1">
+          {/* On mobile, it stacks below the form */}
+          <LodgePreview formData={form.watch()} theme={theme} />
+        </div>
       </div>
     </div>
   );

@@ -31,7 +31,7 @@ export default function LoginPage() {
 
       // simulate dashboard loading
       setTimeout(() => {
-        router.push("/dashboard");
+        router.push("/dashboard/Homepage");
       }, 1500);
     } catch (err: any) {
       setError(err.message);

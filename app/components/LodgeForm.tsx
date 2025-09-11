@@ -21,6 +21,7 @@ import {
   Bed,
   BedSingle,
   Camera,
+  Car,
   ClipboardList,
   DollarSign,
   DoorOpen,
@@ -28,12 +29,20 @@ import {
   HomeIcon,
   Map,
   MapPin,
+  Monitor,
   Navigation,
   PenTool,
   Plus,
   ShowerHead,
   Star,
+  Trees,
+  Tv,
   UploadCloud,
+  Utensils,
+  WashingMachine,
+  Waves,
+  Wifi,
+  Wind,
 } from "lucide-react";
 import {
   Select,
@@ -51,6 +60,7 @@ import { hostname } from "os";
 
 interface LodgeFormProps {
   form: UseFormReturn<z.infer<typeof formSchema>>;
+  theme: string;
 }
 
 const formSchema = z.object({
@@ -86,20 +96,51 @@ const formSchema = z.object({
     .min(1, "At least 1 image required"),
 });
 
-export function LodgeForm({ form }: LodgeFormProps) {
+export function LodgeForm({ form, theme }: LodgeFormProps) {
+  const isDark = theme == "dark";
   const router = useRouter();
-  const amenitiesOptions = [
-    "WiFi",
-    "Private pool",
-    "Ocean view",
-    "Beach access",
-    "Air conditioning",
-    "Kitchen",
-    "Free parking",
-    "Washing machine",
-    "TV",
-    "Workspace",
+  const amenitiesConfig = [
+    { name: "WiFi", icon: Wifi },
+    { name: "Private pool", icon: Waves },
+    { name: "Ocean view", icon: Waves },
+    { name: "Beach access", icon: Trees },
+    { name: "Air conditioning", icon: Wind },
+    { name: "Kitchen", icon: Utensils },
+    { name: "Free parking", icon: Car },
+    { name: "Washing machine", icon: WashingMachine },
+    { name: "TV", icon: Tv },
+    { name: "Workspace", icon: Monitor },
   ];
+
+  const themeClasses = {
+    background: isDark
+      ? "bg-[#0b0b0b] min-h-screen"
+      : "bg-gradient-to-br from-gray-50 via-white to-gray-50 min-h-screen",
+    card: isDark
+      ? "bg-white/5 border-white/10 backdrop-blur-sm"
+      : "bg-white border-gray-200 shadow-lg",
+    text: {
+      primary: isDark ? "text-white" : "text-gray-900",
+      secondary: isDark ? "text-white/70" : "text-gray-600",
+      muted: isDark ? "text-white/50" : "text-gray-400",
+    },
+    input: isDark
+      ? "bg-white/5 border-white/20 text-white placeholder:text-white/40 hover:bg-white/10 focus:bg-white/10 focus:ring-2 focus:ring-rose-400/50 focus:border-rose-400/50"
+      : "bg-white border-gray-300 hover:border-gray-400 focus:border-rose-500 focus:ring-2 focus:ring-rose-500/20 text-black",
+    button: {
+      primary:
+        "bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 text-white shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-200",
+      secondary: isDark
+        ? "border-white/30 bg-white/5 hover:bg-white/10 text-white/80 hover:text-white"
+        : "border-gray-300 bg-white hover:bg-gray-50 text-gray-700 hover:text-gray-900",
+      ghost: isDark
+        ? "text-white/70 hover:text-white hover:bg-white/5"
+        : "text-gray-600 hover:text-gray-900 hover:bg-gray-100",
+    },
+    checkbox: isDark
+      ? "border-white/30 data-[state=checked]:bg-rose-500 data-[state=checked]:border-rose-500"
+      : "border-gray-300 data-[state=checked]:bg-rose-500 data-[state=checked]:border-rose-500",
+  };
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
@@ -169,484 +210,620 @@ export function LodgeForm({ form }: LodgeFormProps) {
   };
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
-        <div className="max-w-5xl mx-auto p-4">
-          {/* Floating Header */}
-          <div className=" top-4 z-10 mb-8 p-6 rounded-2xl bg-white/5 border border-white/10 shadow-lg">
-            <div className="flex items-center gap-4">
-              <div>
-                <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-blue-100">
-                  List Your Student Lodge
+    <div className={`py-8 px-4 ${themeClasses.background}`}>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <div className="">
+            {/* Header */}
+            <div className={`mb-4 px-8`}>
+              <div className="text-left">
+                <h1
+                  className={`text-2xl md:text-3xl font-bold tracking-tight ${
+                    isDark
+                      ? "bg-gradient-to-r from-white via-rose-100 to-pink-100 bg-clip-text text-transparent"
+                      : "text-gray-900"
+                  }`}
+                >
+                  Welcome your first guests
                 </h1>
-                <p className="text-sm text-white/70 mt-1">
-                  Fill in the details below to connect with students looking for
-                  housing
+                <p
+                  className={`text-sm md:text-lg   ${themeClasses.text.secondary}`}
+                >
+                  Tell us about your place and we'll help students find their
+                  perfect home
                 </p>
               </div>
             </div>
-          </div>
 
-          {/* Main Form Container */}
-          <div className="space-y-8">
-            {/* Basic Information Section */}
-            <div className="p-6 rounded-2xl bg-white/5 border border-white/10 shadow-lg">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="p-2 rounded-lg bg-blue-500/20">
-                  <ClipboardList className="w-5 h-5 text-blue-300" />
+            {/* Main Form Container */}
+            <div className="space-y-8">
+              {/* Basic Information Section */}
+              <section className={`p-8 rounded-3xl ${themeClasses.card}`}>
+                <div className="flex items-center gap-4 mb-8">
+                  <div className="p-3 rounded-2xl bg-gradient-to-r from-orange-500/20 to-pink-500/20">
+                    <HomeIcon className="w-6 h-6 text-orange-500" />
+                  </div>
+                  <div>
+                    <h2
+                      className={`text-2xl font-semibold tracking-tight ${themeClasses.text.primary}`}
+                    >
+                      Tell us about your place
+                    </h2>
+                    <p className={`text-sm ${themeClasses.text.secondary}`}>
+                      Share the basic details that make your space special
+                    </p>
+                  </div>
                 </div>
-                <h2 className="text-xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-white to-blue-100">
-                  Basic Information
-                </h2>
-              </div>
 
-              <div className="grid gap-6">
-                <div className="grid gap-6 md:grid-cols-2">
-                  <FormField
-                    control={form.control}
-                    name="title"
-                    render={({ field }) => (
-                      <FormItem className="space-y-2">
-                        <FormLabel className="text-white/80 flex items-center gap-2">
-                          <PenTool className="w-4 h-4" />
-                          Lodge Title
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="e.g., Luxury Beachfront Lodge"
-                            className="bg-white/5 border-white/10 hover:bg-white/10 focus:bg-white/10 focus:ring-2 focus:ring-blue-400/50"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage className="text-red-400/90" />
-                      </FormItem>
-                    )}
-                  />
+                <div className="space-y-6">
+                  <div className="grid gap-6 md:grid-cols-2">
+                    <FormField
+                      control={form.control}
+                      name="title"
+                      render={({ field }) => (
+                        <FormItem className="space-y-3">
+                          <FormLabel
+                            className={`text-sm font-medium flex items-center gap-2 ${themeClasses.text.primary}`}
+                          >
+                            <PenTool className="w-4 h-4" />
+                            What's the name of your place?
+                          </FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="Cozy Studio Near Campus"
+                              className={`h-12 text-base rounded-xl ${themeClasses.input}`}
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage className="text-rose-500 text-xs" />
+                        </FormItem>
+                      )}
+                    />
 
-                  <FormField
-                    control={form.control}
-                    name="host.name"
-                    render={({ field }) => (
-                      <FormItem className="space-y-2">
-                        <FormLabel className="text-white/80 flex items-center gap-2">
-                          <PenTool className="w-4 h-4" />
-                          HostName
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="e.g., Solomon"
-                            className="bg-white/5 border-white/10 hover:bg-white/10 focus:bg-white/10 focus:ring-2 focus:ring-blue-400/50"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage className="text-red-400/90" />
-                      </FormItem>
-                    )}
-                  />
+                    <FormField
+                      control={form.control}
+                      name="host.name"
+                      render={({ field }) => (
+                        <FormItem className="space-y-3">
+                          <FormLabel
+                            className={`text-sm font-medium flex items-center gap-2 ${themeClasses.text.primary}`}
+                          >
+                            <PenTool className="w-4 h-4" />
+                            Your name
+                          </FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="Sarah"
+                              className={`h-12 text-base rounded-xl ${themeClasses.input}`}
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage className="text-rose-500 text-xs" />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
 
                   <FormField
                     control={form.control}
                     name="price"
                     render={({ field }) => (
-                      <FormItem className="space-y-2">
-                        <FormLabel className="text-white/80 flex items-center gap-2">
+                      <FormItem className="space-y-3">
+                        <FormLabel
+                          className={`text-sm font-medium flex items-center gap-2 ${themeClasses.text.primary}`}
+                        >
                           <DollarSign className="w-4 h-4" />
-                          Price per month ($)
+                          Price per month
                         </FormLabel>
                         <FormControl>
                           <div className="relative">
-                            <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/50">
+                            <span
+                              className={`absolute left-4 top-1/2 transform -translate-y-1/2 text-lg font-medium ${themeClasses.text.secondary}`}
+                            >
                               $
                             </span>
                             <Input
                               type="number"
-                              placeholder="e.g., 350"
-                              className="bg-white/5 border-white/10 pl-8 hover:bg-white/10 focus:bg-white/10 focus:ring-2 focus:ring-blue-400/50"
+                              placeholder="650"
+                              className={`h-12 text-base pl-8 rounded-xl ${themeClasses.input}`}
                               {...field}
-                              value={field.value || "--"}
+                              value={field.value || ""}
                               onChange={(e) =>
-                                field.onChange(parseInt(e.target.value))
+                                field.onChange(parseInt(e.target.value) || 0)
                               }
                             />
                           </div>
                         </FormControl>
-                        <FormMessage className="text-red-400/90" />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                <FormField
-                  control={form.control}
-                  name="description"
-                  render={({ field }) => (
-                    <FormItem className="space-y-2">
-                      <FormLabel className="text-white/80 flex items-center gap-2">
-                        <AlignLeft className="w-4 h-4" />
-                        Description
-                      </FormLabel>
-                      <FormControl>
-                        <Textarea
-                          placeholder="Describe your lodge... Mention nearby universities, transportation, and what makes your place special for students"
-                          rows={4}
-                          className="bg-white/5 border-white/10 hover:bg-white/10 focus:bg-white/10 focus:ring-2 focus:ring-blue-400/50"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage className="text-red-400/90" />
-                    </FormItem>
-                  )}
-                />
-              </div>
-            </div>
-
-            {/* Location Section */}
-            <div className="p-6 rounded-2xl bg-white/5 border border-white/10 shadow-lg">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="p-2 rounded-lg bg-purple-500/20">
-                  <MapPin className="w-5 h-5 text-purple-300" />
-                </div>
-                <h2 className="text-xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-white to-purple-100">
-                  Location Details
-                </h2>
-              </div>
-
-              <div className="grid gap-6">
-                <FormField
-                  control={form.control}
-                  name="location.address"
-                  render={({ field }) => (
-                    <FormItem className="space-y-2">
-                      <FormLabel className="text-white/80 flex items-center gap-2">
-                        <Navigation className="w-4 h-4" />
-                        Full Address
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="e.g., 123 University Ave, College Town, CA 90210"
-                          className="bg-white/5 border-white/10 hover:bg-white/10 focus:bg-white/10 focus:ring-2 focus:ring-blue-400/50"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage className="text-red-400/90" />
-                    </FormItem>
-                  )}
-                />
-
-                <div className="grid gap-6 md:grid-cols-2">
-                  <FormField
-                    control={form.control}
-                    name="location.coordinates.lat"
-                    render={({ field }) => (
-                      <FormItem className="space-y-2">
-                        <FormLabel className="text-white/80 flex items-center gap-2">
-                          <Globe className="w-4 h-4" />
-                          Latitude
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="e.g., 34.0381"
-                            className="bg-white/5 border-white/10 hover:bg-white/10 focus:bg-white/10 focus:ring-2 focus:ring-blue-400/50"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage className="text-red-400/90" />
+                        <FormMessage className="text-rose-500 text-xs" />
                       </FormItem>
                     )}
                   />
 
                   <FormField
                     control={form.control}
-                    name="location.coordinates.lng"
+                    name="description"
                     render={({ field }) => (
-                      <FormItem className="space-y-2">
-                        <FormLabel className="text-white/80 flex items-center gap-2">
-                          <Globe className="w-4 h-4" />
-                          Longitude
+                      <FormItem className="space-y-3">
+                        <FormLabel
+                          className={`text-sm font-medium flex items-center gap-2 ${themeClasses.text.primary}`}
+                        >
+                          <AlignLeft className="w-4 h-4" />
+                          Describe your place
                         </FormLabel>
                         <FormControl>
-                          <Input
-                            placeholder="e.g., 118.6923"
-                            className="bg-white/5 border-white/10 hover:bg-white/10 focus:bg-white/10 focus:ring-2 focus:ring-blue-400/50"
+                          <Textarea
+                            placeholder="Create a warm and inviting description. Mention what makes your place special, nearby universities, public transport, and why students will love staying here..."
+                            rows={5}
+                            className={`text-base rounded-xl resize-none ${themeClasses.input}`}
                             {...field}
                           />
                         </FormControl>
-                        <FormMessage className="text-red-400/90" />
+                        <FormMessage className="text-rose-500 text-xs" />
                       </FormItem>
                     )}
                   />
                 </div>
+              </section>
 
-                {/* Interactive Map Placeholder */}
-                <div className="mt-4 rounded-xl overflow-hidden border border-white/10 h-48 relative">
-                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 flex items-center justify-center">
-                    <div className="text-center p-6 rounded-lg bg-black/20">
-                      <Map className="w-8 h-8 mx-auto mb-2 text-white/60" />
-                      <p className="text-sm text-white/60">
-                        Interactive map preview will appear here
-                      </p>
-                    </div>
+              {/* Location */}
+              <section className={`p-8 rounded-3xl ${themeClasses.card}`}>
+                <div className="flex items-center gap-4 mb-8">
+                  <div className="p-3 rounded-2xl bg-gradient-to-r from-orange-500/20 to-cyan-500/20">
+                    <MapPin className="w-6 h-6 text-orange-500" />
                   </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Room Details Section */}
-            <div className="p-6 rounded-2xl bg-white/5 border border-white/10 shadow-lg">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="p-2 rounded-lg bg-amber-500/20">
-                  <Bed className="w-5 h-5 text-amber-300" />
-                </div>
-                <h2 className="text-xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-white to-amber-100">
-                  Room Configuration
-                </h2>
-              </div>
-
-              <div className="grid gap-6 md:grid-cols-3">
-                <FormField
-                  control={form.control}
-                  name="bedrooms"
-                  render={({ field }) => (
-                    <FormItem className="space-y-2">
-                      <FormLabel className="text-white/80 flex items-center gap-2">
-                        <DoorOpen className="w-4 h-4" />
-                        Bedrooms
-                      </FormLabel>
-                      <Select
-                        onValueChange={(value) =>
-                          field.onChange(parseInt(value))
-                        }
-                        defaultValue={field.value.toString()}
-                      >
-                        <FormControl>
-                          <SelectTrigger className="bg-white/5 border-white/10 hover:bg-white/10">
-                            <SelectValue placeholder="Select bedrooms" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent className="bg-gray-800/95 border border-white/10">
-                          {[1, 2, 3, 4, 5, 6].map((num) => (
-                            <SelectItem
-                              key={num}
-                              value={num.toString()}
-                              className="hover:bg-white/10 focus:bg-white/10"
-                            >
-                              {num} {num === 1 ? "bedroom" : "bedrooms"}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage className="text-red-400/90" />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="beds"
-                  render={({ field }) => (
-                    <FormItem className="space-y-2">
-                      <FormLabel className="text-white/80 flex items-center gap-2">
-                        <BedSingle className="w-4 h-4" />
-                        Beds
-                      </FormLabel>
-                      <Select
-                        onValueChange={(value) =>
-                          field.onChange(parseInt(value))
-                        }
-                        defaultValue={field.value.toString()}
-                      >
-                        <FormControl>
-                          <SelectTrigger className="bg-white/5 border-white/10 hover:bg-white/10">
-                            <SelectValue placeholder="Select beds" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent className="bg-gray-800/95 border border-white/10">
-                          {[1, 2, 3, 4, 5, 6].map((num) => (
-                            <SelectItem
-                              key={num}
-                              value={num.toString()}
-                              className="hover:bg-white/10 focus:bg-white/10"
-                            >
-                              {num} {num === 1 ? "bed" : "beds"}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage className="text-red-400/90" />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="bathrooms"
-                  render={({ field }) => (
-                    <FormItem className="space-y-2">
-                      <FormLabel className="text-white/80 flex items-center gap-2">
-                        <ShowerHead className="w-4 h-4" />
-                        Bathrooms
-                      </FormLabel>
-                      <Select
-                        onValueChange={(value) =>
-                          field.onChange(parseInt(value))
-                        }
-                        defaultValue={field.value.toString()}
-                      >
-                        <FormControl>
-                          <SelectTrigger className="bg-white/5 border-white/10 hover:bg-white/10">
-                            <SelectValue placeholder="Select bathrooms" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent className="bg-gray-800/95 border border-white/10">
-                          {[1, 2, 3, 4, 5].map((num) => (
-                            <SelectItem
-                              key={num}
-                              value={num.toString()}
-                              className="hover:bg-white/10 focus:bg-white/10"
-                            >
-                              {num} {num === 1 ? "bathroom" : "bathrooms"}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage className="text-red-400/90" />
-                    </FormItem>
-                  )}
-                />
-              </div>
-            </div>
-
-            {/* Amenities Section */}
-            <div className="p-6 rounded-2xl bg-white/5 border border-white/10 shadow-lg">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="p-2 rounded-lg bg-emerald-500/20">
-                  <Star className="w-5 h-5 text-emerald-300" />
-                </div>
-                <h2 className="text-xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-white to-emerald-100">
-                  Amenities & Features
-                </h2>
-              </div>
-
-              <p className="text-sm text-white/70 mb-6">
-                Select all amenities available at your lodge. Students love
-                places with great features!
-              </p>
-
-              <FormField
-                control={form.control}
-                name="amenities"
-                render={() => (
-                  <FormItem>
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                      {amenitiesOptions.map((amenity) => (
-                        <FormField
-                          key={amenity}
-                          control={form.control}
-                          name="amenities"
-                          render={({ field }) => (
-                            <FormItem
-                              key={amenity}
-                              className="flex items-center space-x-3"
-                            >
-                              <FormControl>
-                                <Checkbox
-                                  checked={field.value?.includes(amenity)}
-                                  onCheckedChange={(checked) => {
-                                    return checked
-                                      ? field.onChange([
-                                          ...field.value,
-                                          amenity,
-                                        ])
-                                      : field.onChange(
-                                          field.value?.filter(
-                                            (value) => value !== amenity
-                                          )
-                                        );
-                                  }}
-                                  className="border-white/20 data-[state=checked]:bg-blue-500/90 data-[state=checked]:border-blue-500"
-                                />
-                              </FormControl>
-                              <FormLabel className="text-sm font-normal text-white/80 hover:text-white transition-colors cursor-pointer">
-                                {amenity}
-                              </FormLabel>
-                            </FormItem>
-                          )}
-                        />
-                      ))}
-                    </div>
-                    <FormMessage className="text-red-400/90" />
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            {/* Images Upload Section */}
-            <FormField
-              control={form.control}
-              name="images"
-              render={({ field }) => (
-                <FormItem>
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="p-2 rounded-lg bg-pink-500/20">
-                      <Camera className="w-5 h-5 text-pink-300" />
-                    </div>
-                    <h2 className="text-xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-white to-pink-100">
-                      Lodge Photos
+                  <div>
+                    <h2
+                      className={`text-2xl font-semibold tracking-tight ${themeClasses.text.primary}`}
+                    >
+                      Where's your place located?
                     </h2>
+                    <p className={`text-sm ${themeClasses.text.secondary}`}>
+                      Help students find you easily
+                    </p>
+                  </div>
+                </div>
+
+                <div className="space-y-6">
+                  <FormField
+                    control={form.control}
+                    name="location.address"
+                    render={({ field }) => (
+                      <FormItem className="space-y-3">
+                        <FormLabel
+                          className={`text-sm font-medium flex items-center gap-2 ${themeClasses.text.primary}`}
+                        >
+                          <Navigation className="w-4 h-4" />
+                          Street address
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="123 University Avenue, College Town"
+                            className={`h-12 text-base rounded-xl ${themeClasses.input}`}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage className="text-rose-500 text-xs" />
+                      </FormItem>
+                    )}
+                  />
+
+                  <div className="grid gap-6 md:grid-cols-2">
+                    <FormField
+                      control={form.control}
+                      name="location.coordinates.lat"
+                      render={({ field }) => (
+                        <FormItem className="space-y-3">
+                          <FormLabel
+                            className={`text-sm font-medium flex items-center gap-2 ${themeClasses.text.primary}`}
+                          >
+                            <Globe className="w-4 h-4" />
+                            Latitude
+                          </FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="34.0522"
+                              className={`h-12 text-base rounded-xl ${themeClasses.input}`}
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage className="text-rose-500 text-xs" />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="location.coordinates.lng"
+                      render={({ field }) => (
+                        <FormItem className="space-y-3">
+                          <FormLabel
+                            className={`text-sm font-medium flex items-center gap-2 ${themeClasses.text.primary}`}
+                          >
+                            <Globe className="w-4 h-4" />
+                            Longitude
+                          </FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="-118.2437"
+                              className={`h-12 text-base rounded-xl ${themeClasses.input}`}
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage className="text-rose-500 text-xs" />
+                        </FormItem>
+                      )}
+                    />
                   </div>
 
-                  <p className="text-sm text-white/70 mb-6">
-                    Upload high-quality photos of your lodge (minimum 3). First
-                    image will be featured.
-                  </p>
+                  {/* Map Preview */}
+                  <div
+                    className={`mt-6 rounded-2xl overflow-hidden h-64 relative border ${
+                      isDark ? "border-white/10" : "border-gray-200"
+                    }`}
+                  >
+                    <div
+                      className={`absolute inset-0 flex items-center justify-center ${
+                        isDark
+                          ? "bg-gradient-to-br from-orange-500/10 via-cyan-500/5 to-teal-500/10"
+                          : "bg-gradient-to-br from-orange-50 via-cyan-50 to-teal-50"
+                      }`}
+                    >
+                      <div
+                        className={`text-center p-8 rounded-2xl ${
+                          isDark ? "bg-black/20" : "bg-white/80"
+                        }`}
+                      >
+                        <Map
+                          className={`w-12 h-12 mx-auto mb-4 ${themeClasses.text.secondary}`}
+                        />
+                        <p className={`text-sm ${themeClasses.text.secondary}`}>
+                          Interactive map will show your location
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
 
-                  <FormControl>
-                    <ImageUpload
-                      value={field.value}
-                      onChange={field.onChange}
-                    />
-                  </FormControl>
-                  <FormMessage className="text-red-400/90" />
-                  <p className="mt-3 text-xs text-white/50">
-                    Tip: Include bedroom, kitchen, bathroom, exterior, and
-                    common areas
-                  </p>
-                </FormItem>
-              )}
-            />
+              {/* Room Details */}
+              <section className={`p-8 rounded-3xl ${themeClasses.card}`}>
+                <div className="flex items-center gap-4 mb-8">
+                  <div className="p-3 rounded-2xl bg-gradient-to-r from-orange-500/20 to-indigo-500/20">
+                    <Bed className="w-6 h-6 text-orange-500" />
+                  </div>
+                  <div>
+                    <h2
+                      className={`text-2xl font-semibold tracking-tight ${themeClasses.text.primary}`}
+                    >
+                      Share some basics about your place
+                    </h2>
+                    <p className={`text-sm ${themeClasses.text.secondary}`}>
+                      You'll add more details later, like bed types
+                    </p>
+                  </div>
+                </div>
 
-            {/* Action Buttons */}
-            <div className="p-6 rounded-2xl bg-white/5 border border-white/10 shadow-lg">
-              <div className="flex flex-col-reverse md:flex-row justify-between gap-4">
-                <Button
-                  variant="ghost"
-                  type="button"
-                  className="text-white/80 hover:text-white hover:bg-white/10 transition-colors"
-                >
-                  <ArrowBigLeftIcon className="w-5 h-5 mr-2" />
-                  Cancel
-                </Button>
-                <div className="flex gap-4">
+                <div className="grid gap-8 md:grid-cols-3">
+                  <FormField
+                    control={form.control}
+                    name="bedrooms"
+                    render={({ field }) => (
+                      <FormItem className="space-y-4">
+                        <FormLabel
+                          className={`text-base font-medium flex items-center gap-3 ${themeClasses.text.primary}`}
+                        >
+                          <DoorOpen className="w-5 h-5 " />
+                          Bedrooms
+                        </FormLabel>
+                        <Select
+                          onValueChange={(value) =>
+                            field.onChange(parseInt(value))
+                          }
+                          defaultValue={field.value?.toString()}
+                        >
+                          <FormControl>
+                            <SelectTrigger
+                              className={`h-14 text-base rounded-xl ${themeClasses.input}`}
+                            >
+                              <SelectValue placeholder="Select" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent
+                            className={`rounded-xl ${
+                              isDark
+                                ? "bg-gray-800 border-white/20"
+                                : "bg-white border-gray-200 text-black"
+                            }`}
+                          >
+                            {[1, 2, 3, 4, 5, 6, 7, 8].map((num) => (
+                              <SelectItem
+                                key={num}
+                                value={num.toString()}
+                                className={`text-base ${
+                                  isDark
+                                    ? "hover:bg-white/10 focus:bg-white/10"
+                                    : "hover:bg-gray-100 focus:bg-gray-100"
+                                }`}
+                              >
+                                {num}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <FormMessage className="text-rose-500 text-xs" />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="beds"
+                    render={({ field }) => (
+                      <FormItem className="space-y-4">
+                        <FormLabel
+                          className={`text-base font-medium flex items-center gap-3 ${themeClasses.text.primary}`}
+                        >
+                          <BedSingle className="w-5 h-5" />
+                          Beds
+                        </FormLabel>
+                        <Select
+                          onValueChange={(value) =>
+                            field.onChange(parseInt(value))
+                          }
+                          defaultValue={field.value?.toString()}
+                        >
+                          <FormControl>
+                            <SelectTrigger
+                              className={`h-14 text-base rounded-xl ${themeClasses.input}`}
+                            >
+                              <SelectValue placeholder="Select" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent
+                            className={`rounded-xl ${
+                              isDark
+                                ? "bg-gray-800 border-white/20"
+                                : "bg-white border-gray-200 text-black"
+                            }`}
+                          >
+                            {[1, 2, 3, 4, 5, 6, 7, 8].map((num) => (
+                              <SelectItem
+                                key={num}
+                                value={num.toString()}
+                                className={`text-base ${
+                                  isDark
+                                    ? "hover:bg-white/10 focus:bg-white/10"
+                                    : "hover:bg-gray-100 focus:bg-gray-100"
+                                }`}
+                              >
+                                {num}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <FormMessage className="text-rose-500 text-xs" />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="bathrooms"
+                    render={({ field }) => (
+                      <FormItem className="space-y-4">
+                        <FormLabel
+                          className={`text-base font-medium flex items-center gap-3 ${themeClasses.text.primary}`}
+                        >
+                          <ShowerHead className="w-5 h-5" />
+                          Bathrooms
+                        </FormLabel>
+                        <Select
+                          onValueChange={(value) =>
+                            field.onChange(parseInt(value))
+                          }
+                          defaultValue={field.value?.toString()}
+                        >
+                          <FormControl>
+                            <SelectTrigger
+                              className={`h-14 text-base rounded-xl ${themeClasses.input}`}
+                            >
+                              <SelectValue placeholder="Select" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent
+                            className={`rounded-xl ${
+                              isDark
+                                ? "bg-gray-800 border-white/20"
+                                : "bg-white border-gray-200 text-black "
+                            }`}
+                          >
+                            {[1, 2, 3, 4, 5, 6].map((num) => (
+                              <SelectItem
+                                key={num}
+                                value={num.toString()}
+                                className={`text-base ${
+                                  isDark
+                                    ? "hover:bg-white/10 focus:bg-white/10"
+                                    : "hover:bg-gray-100 focus:bg-gray-100"
+                                }`}
+                              >
+                                {num}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <FormMessage className="text-rose-500 text-xs" />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </section>
+
+              {/* Amenities */}
+              <section className={`p-8 rounded-3xl ${themeClasses.card}`}>
+                <div className="flex items-center gap-4 mb-8">
+                  <div>
+                    <h2
+                      className={`text-2xl font-semibold tracking-tight ${themeClasses.text.primary}`}
+                    >
+                      Tell students what your place has to offer
+                    </h2>
+                    <p className={`text-sm ${themeClasses.text.secondary}`}>
+                      You can add more amenities after you publish your listing
+                    </p>
+                  </div>
+                </div>
+
+                <FormField
+                  control={form.control}
+                  name="amenities"
+                  render={() => (
+                    <FormItem>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {amenitiesConfig.map((amenity) => {
+                          const IconComponent = amenity.icon;
+                          return (
+                            <FormField
+                              key={amenity.name}
+                              control={form.control}
+                              name="amenities"
+                              render={({ field }) => (
+                                <FormItem key={amenity.name}>
+                                  <FormControl>
+                                    <label
+                                      className={`flex items-center gap-4 p-4 rounded-2xl border-2 cursor-pointer transition-all duration-200 hover:scale-[1.02] ${
+                                        field.value?.includes(amenity.name)
+                                          ? isDark
+                                            ? "border-orange-500 bg-orange-500/10"
+                                            : "border-orange-500 bg-orange-50"
+                                          : isDark
+                                          ? "border-white/20 hover:border-white/40"
+                                          : "border-gray-200 hover:border-gray-300"
+                                      }`}
+                                    >
+                                      <Checkbox
+                                        checked={field.value?.includes(
+                                          amenity.name
+                                        )}
+                                        onCheckedChange={(checked) => {
+                                          return checked
+                                            ? field.onChange([
+                                                ...field.value,
+                                                amenity.name,
+                                              ])
+                                            : field.onChange(
+                                                field.value?.filter(
+                                                  (value) =>
+                                                    value !== amenity.name
+                                                )
+                                              );
+                                        }}
+                                        className={`hidden ${themeClasses.checkbox}`}
+                                      />
+                                      <IconComponent
+                                        className={`w-6 h-6 ${
+                                          field.value?.includes(amenity.name)
+                                            ? "text-rose-500"
+                                            : themeClasses.text.secondary
+                                        }`}
+                                      />
+                                      <span
+                                        className={`text-base font-medium ${
+                                          field.value?.includes(amenity.name)
+                                            ? isDark
+                                              ? "text-white"
+                                              : "text-gray-900"
+                                            : themeClasses.text.primary
+                                        }`}
+                                      >
+                                        {amenity.name}
+                                      </span>
+                                    </label>
+                                  </FormControl>
+                                </FormItem>
+                              )}
+                            />
+                          );
+                        })}
+                      </div>
+                      <FormMessage className="text-rose-500 text-sm mt-4" />
+                    </FormItem>
+                  )}
+                />
+              </section>
+
+              {/* Photos */}
+              <section className={`p-8 rounded-3xl ${themeClasses.card}`}>
+                <div className="flex items-center gap-4 mb-8">
+                  <div>
+                    <h2
+                      className={`text-2xl font-semibold tracking-tight ${themeClasses.text.primary}`}
+                    >
+                      Add some photos of your place
+                    </h2>
+                    <p className={`text-sm ${themeClasses.text.secondary}`}>
+                      You'll need at least one photo to get started. You can add
+                      more or make changes later.
+                    </p>
+                  </div>
+                </div>
+
+                <FormField
+                  control={form.control}
+                  name="images"
+                  render={({ field }) => (
+                    <FormItem
+                      className={`rounded-xl ${
+                        isDark
+                          ? " border-white/20"
+                          : "bg-gradient-to-r from-orange-500/60 to-red-500/20 p-2 text-black "
+                      }`}
+                    >
+                      <FormControl>
+                        <ImageUpload
+                          value={field.value}
+                          onChange={field.onChange}
+                        />
+                      </FormControl>
+                      <FormMessage className="text-rose-500 text-sm" />
+                    </FormItem>
+                  )}
+                />
+              </section>
+
+              {/* Action Buttons */}
+              <div className="p-6 rounded-2xl bg-white/5 border border-white/10 shadow-lg">
+                <div className="flex flex-col-reverse md:flex-row justify-between gap-4">
                   <Button
-                    variant="outline"
+                    variant="ghost"
                     type="button"
-                    className="border-white/30 bg-transparent hover:bg-white/10 hover:border-white/50"
+                    className={`text-gray-700/80 hover:text-white hover:bg-white/10 transition-colors`}
                   >
-                    Save Draft
+                    <ArrowBigLeftIcon className="w-5 h-5 mr-2" />
+                    Cancel
                   </Button>
-                  <Button
-                    type="submit"
-                    className="relative overflow-hidden bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:scale-[1.02] transition-transform hover:shadow-lg"
-                  >
-                    <span className="relative z-10">Publish Lodge</span>
-                    <span className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-700 opacity-0 hover:opacity-100 transition-opacity"></span>
-                  </Button>
+                  <div className="flex gap-4">
+                    <Button
+                      variant="outline"
+                      type="button"
+                      className="text-gray-500 border-white/30 bg-transparent hover:bg-white/10 hover:border-white/50"
+                    >
+                      Save Draft
+                    </Button>
+                    <Button
+                      type="submit"
+                      className="relative overflow-hidden bg-gradient-to-r from-orange-600 to-orange-700 text-white hover:scale-[1.02] transition-transform hover:shadow-lg"
+                    >
+                      <span className="relative z-10">Publish Lodge</span>
+                      <span className="absolute inset-0  transition-opacity"></span>
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </form>
-    </Form>
+        </form>
+      </Form>
+    </div>
   );
 }

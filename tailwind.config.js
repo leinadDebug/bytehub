@@ -8,6 +8,11 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        notable: ['var(--font-notable)', 'sans-serif'],
+        inter: ['var(--font-inter)', 'sans-serif'],
+        noto: ['var(--font-noto)', 'sans-serif'],
+      },
       colors: {
         brand: {
           50: "#f0f9ff",
